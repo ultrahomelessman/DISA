@@ -1,6 +1,7 @@
 package com.example.bismillah_motor_listrik;
 
 import static android.content.ContentValues.TAG;
+import static android.text.TextUtils.split;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -9,14 +10,26 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Looper;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -39,10 +52,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapLongClickListener,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -50,10 +65,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
+    Button btn;
 
     Marker userLocationMarker;
     Circle userLocationAccuracyCircle;
 
+    private static final int REQUEST_ENABLE_BT = 1;
+    BluetoothAdapter btAdapter;
+
+    //Declare timer
+    CountDownTimer cTimer = null;
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +90,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         geocoder = new Geocoder(this);
 
+        TextView battery = (TextView) findViewById(R.id.baterry);
+
+        java.util.Date noteTS = Calendar.getInstance().getTime();
+
+        String time = "hh:mm%"; // 12:00
+        battery.setText(DateFormat.format(time, noteTS));
+
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationRequest = LocationRequest.create();
@@ -74,7 +105,110 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+        btn = findViewById(R.id.btn_stnby);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String a = btn.getText().toString();
+                if(a == "Resume") {
+                    btn.setText("Standby");
+                } else {
+                    btn.setText("");
+                }
+            }
+        });
+
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        // Register for broadcasts when a device is discovered.
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(receiver, filter);
+
+//        CheckBluetoothState();
+        BluetoothStart();
     }
+
+    //TODO BLUETOOTH
+    @SuppressLint("MissingPermission")
+    private void BluetoothStart() {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+
+        if (bluetoothAdapter == null) {
+            Toast.makeText(this, "Perangkat Tidak Mendukung Bluetooth", Toast.LENGTH_SHORT).show();
+        }
+
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+
+        if (pairedDevices.size() > 0) {
+            // There are paired devices. Get the name and address of each paired device.
+            for (BluetoothDevice device : pairedDevices) {
+                String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+            }
+        }
+
+    }
+    //TODO Create a BroadcastReceiver for ACTION_FOUND.
+    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                // Discovery has found a device. Get the BluetoothDevice
+                // object and its info from the Intent.
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                @SuppressLint("MissingPermission") String deviceName = device.getName();
+                String deviceHardwareAddress = device.getAddress(); // MAC address
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Don't forget to unregister the ACTION_FOUND receiver.
+        unregisterReceiver(receiver);
+    }
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_ENABLE_BT) {
+//            CheckBluetoothState();
+//        }
+//    }
+
+//    @SuppressLint("MissingPermission")
+//    private void CheckBluetoothState() {
+//        // Checks for the Bluetooth support and then makes sure it is turned on
+//        // If it isn't turned on, request to turn it on
+//        // List paired devices
+//        if(btAdapter==null) {
+//
+//            return;
+//        } else {
+//            if (btAdapter.isEnabled()) {
+////                textview1.append("\nBluetooth is enabled...");
+//
+//                // Listing paired devices
+////                textview1.append("\nPaired Devices are:");
+//                @SuppressLint("MissingPermission") Set<BluetoothDevice> devices = btAdapter.getBondedDevices();
+//                for (BluetoothDevice device : devices) {
+////                    textview1.append("\n  Device: " + device.getName() + ", " + device);
+//                }
+//            } else {
+//                //Prompt user to turn on Bluetooth
+//                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+//            }
+//        }
+//    }
 
     /**
      * Manipulates the map once available.
@@ -89,8 +223,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setOnMapLongClickListener( this);
-        mMap.setOnMarkerDragListener(this);
+//        mMap.setOnMapLongClickListener( this);
+//        mMap.setOnMarkerDragListener(this);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager
                 .PERMISSION_GRANTED) {
@@ -143,9 +277,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
+    public void stringLocation(Location location){
+        String latitude = Location.convert(location.getLatitude(), Location.FORMAT_SECONDS);
+        String longitude = Location.convert(location.getLongitude(), Location.FORMAT_SECONDS);
+    }
+
     private void setUserLocationMarker(Location location){
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
 
         if (userLocationMarker == null){
             //Create New Marker
@@ -221,51 +361,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
        });
     }
 
-    @Override
-    public void onMapLongClick(@NonNull LatLng latLng) {
-        Log.d(TAG, "onMapLongClick: " + latLng.toString());
-        try {
-            List<Address> addresses =  geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-            if (addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String streetAddress = address.getAddressLine(0);
-                mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(streetAddress)
-                        .draggable(true)
-                );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//    @Override
+//    public void onMapLongClick(@NonNull LatLng latLng) {
+//        Log.d(TAG, "onMapLongClick: " + latLng.toString());
+//        try {
+//            List<Address> addresses =  geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+//            if (addresses.size() > 0) {
+//                Address address = addresses.get(0);
+//                String streetAddress = address.getAddressLine(0);
+//                mMap.addMarker(new MarkerOptions()
+//                        .position(latLng)
+//                        .title(streetAddress)
+//                        .draggable(true)
+//                );
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
-    }
+//    @Override
+//    public void onMarkerDrag(@NonNull Marker marker) {
+//        Log.d(TAG, "onMarkerDrag: ");
+//    }
 
-    @Override
-    public void onMarkerDrag(@NonNull Marker marker) {
-        Log.d(TAG, "onMarkerDrag: ");
-    }
+//    @Override
+//    public void onMarkerDragEnd(@NonNull Marker marker) {
+//        Log.d(TAG, "onMarkerDragEnd: ");
+//        LatLng latLng = marker.getPosition();
+//        try {
+//            List<Address> addresses =  geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+//            if (addresses.size() > 0) {
+//                Address address = addresses.get(0);
+//                String streetAddress = address.getAddressLine(0);
+//                marker.setTitle(streetAddress);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    @Override
-    public void onMarkerDragEnd(@NonNull Marker marker) {
-        Log.d(TAG, "onMarkerDragEnd: ");
-        LatLng latLng = marker.getPosition();
-        try {
-            List<Address> addresses =  geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-            if (addresses.size() > 0) {
-                Address address = addresses.get(0);
-                String streetAddress = address.getAddressLine(0);
-                marker.setTitle(streetAddress);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onMarkerDragStart(@NonNull Marker marker) {
-        Log.d(TAG, "onMarkerDragStart: ");
-    }
+//    @Override
+//    public void onMarkerDragStart(@NonNull Marker marker) {
+//        Log.d(TAG, "onMarkerDragStart: ");
+//    }
 
     @SuppressLint("MissingSuperCall")
     @Override
@@ -284,5 +424,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapClick(@NonNull LatLng latLng) {
 
 
+    }
+
+    /** Called when the user touches the button */
+//    public void standBy(View view) {
+//        stopLocationUpdates();
+//        startTimer();
+//        btn.setText("Resume");
+//
+//    }
+
+    //start timer function
+    void startTimer() {
+        cTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+            }
+        };
+        cTimer.start();
+    }
+
+    //cancel timer
+    void cancelTimer() {
+        if(cTimer!=null)
+            cTimer.cancel();
     }
 }

@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface InterfaceAPI {
 
-    String BASE_URL = "https://30bb-36-91-58-207.ap.ngrok.io/";
+    String BASE_URL = "https://bd18-125-166-13-165.ap.ngrok.io/";
 
     @POST("api/login")
     @FormUrlEncoded

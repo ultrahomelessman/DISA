@@ -24,6 +24,8 @@ public class Tampilan extends AppCompatActivity {
     private String id;
     private String KEY_NAME = "NAMA";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,7 +9,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -69,7 +68,7 @@ public class Scanner extends AppCompatActivity {
         });
     }
 
-    private boolean checkpermissions(){
+    private void checkpermissions(){
         List<String> listofpermisssions = new ArrayList<>();
         for (String perm: permissions){
             if (ContextCompat.checkSelfPermission(getApplicationContext(), perm) != PackageManager.PERMISSION_GRANTED){
@@ -79,9 +78,7 @@ public class Scanner extends AppCompatActivity {
         }
         if (!listofpermisssions.isEmpty()){
             ActivityCompat.requestPermissions(this, listofpermisssions.toArray(new String[listofpermisssions.size()]), PERM_CODE);
-            return false;
         }
-        return true;
     }
 
 

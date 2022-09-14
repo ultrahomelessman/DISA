@@ -1,18 +1,29 @@
 package com.example.bismillah_motor_listrik;
 
+import static java.lang.System.out;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     private View decorView;
 
+    final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
     Button btn;
+
+    private static final int REQUEST_ENABLE_BT = 0;
+    private static final int REQUEST_DISCOVERABLE_BT = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,16 +38,36 @@ public class MainActivity extends Activity {
             }
         });
 
-            btn = findViewById(R.id.button);
+
+
+        if (mBluetoothAdapter == null) {
+            out.append("device not supported");
+        }
+
+        btn = findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Scanner.class));
             }
         });
+        bluetooth();
     }
 
-    @Override
+    @SuppressLint("MissingPermission")
+    private void bluetooth() {
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        } else {
+            Toast.makeText(this, "Bluetooth Is Already Enabled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+@Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus){

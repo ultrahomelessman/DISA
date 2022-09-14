@@ -10,7 +10,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="545dp"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity"></fragment>
+        tools:context=".MapsActivity" />
 
     <LinearLayout
         android:layout_width="275dp"
@@ -51,19 +51,19 @@
                         android:text="Battery"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10dp"></TextView>
+                        android:textSize="10dp" />
 
                     <TextView
+                        android:id="@+id/baterry"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="25dp"
-                        android:text="100%"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="20dp"
+                        android:text="@string/battery"
+                        android:textAlignment="center"
                         android:textColor="#85b5f9"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="20dp" />
 
 
                 </RelativeLayout>
@@ -157,7 +157,7 @@
                         android:text="Suhu"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10dp"></TextView>
+                        android:textSize="10dp" />
 
                     <TextView
                         android:layout_width="70dp"
@@ -320,11 +320,11 @@
         android:layout_marginLeft="686dp"
         android:layout_marginTop="305dp"
         android:background="@drawable/bg_buttongray"
+        android:fontFamily="@font/semibold"
+        android:onClick="standBy"
         android:text="Standby"
         android:textAllCaps="false"
-        android:fontFamily="@font/semibold"
-        android:textSize="10dp"
-        >
+        android:textSize="10dp">
 
     </Button>
 
