@@ -1,14 +1,23 @@
 package com.example.bismillah_motor_listrik;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -20,6 +29,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.zxing.Result;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +47,11 @@ public class Scanner extends AppCompatActivity {
     CodeScanner codeScanner;
     CodeScannerView codeScannerView;
     private String KEY_NAME = "NAMA";
+    ProgressDialog loading;
     String username;
     String id;
+    private Handler handler; // handler that gets info from Bluetooth service
+
 
     String[] permissions = {
             Manifest.permission.CAMERA
@@ -46,6 +61,12 @@ public class Scanner extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_scanner);
         checkpermissions();
         codeScannerView = (CodeScannerView) findViewById(R.id.scannerView);
@@ -83,6 +104,7 @@ public class Scanner extends AppCompatActivity {
 
 
     private void login() {
+        loading = ProgressDialog.show(Scanner.this, "Memuat Data", "Harap Tunggu ..");
         OkHttpClient client = new OkHttpClient();
 
         Gson gson = new GsonBuilder().setLenient().create();
@@ -108,6 +130,7 @@ public class Scanner extends AppCompatActivity {
 
                 id = response.body().getId();
                 if (response.body().getSuccess() != null){
+                    loading.cancel();
                     Intent i = new Intent(Scanner.this, MapsActivity.class);
                     i.putExtra(KEY_NAME, id);
                     startActivity(i);
@@ -119,6 +142,7 @@ public class Scanner extends AppCompatActivity {
                 Toast.makeText(Scanner.this, t.getMessage() + " | " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     @Override
@@ -130,4 +154,70 @@ public class Scanner extends AppCompatActivity {
     private void requestCamera() {
         codeScanner.startPreview();
     }
+
+    // Defines several constants used when transmitting messages between the
+    // service and the UI.
+    private interface MessageConstants {
+        public static final int MESSAGE_READ = 0;
+        public static final int MESSAGE_WRITE = 1;
+        public static final int MESSAGE_TOAST = 2;
+
+        // ... (Add other message types here as needed.)
+    }
+
+    private class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final OutputStream mmOutStream;
+        private byte[] mmBuffer; // mmBuffer store for the stream
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            OutputStream tmpOut = null;
+
+            // Get the input and output streams; using temp objects because
+            // member streams are final.
+            try {
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating output stream", e);
+            }
+
+            mmOutStream = tmpOut;
+        }
+
+
+        // Call this from the main activity to send data to the remote device.
+        public void write(byte[] bytes) {
+            try {
+                mmOutStream.write(bytes);
+
+                // Share the sent message with the UI activity.
+                Message writtenMsg = handler.obtainMessage(Integer.parseInt("1"));
+
+                writtenMsg.sendToTarget();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when sending data", e);
+
+                // Send a failure message back to the activity.
+                Message writeErrorMsg =
+                        handler.obtainMessage(MapsActivity.MessageConstants.MESSAGE_TOAST);
+                Bundle bundle = new Bundle();
+                bundle.putString("toast",
+                        "Couldn't send data to the other device");
+                writeErrorMsg.setData(bundle);
+                handler.sendMessage(writeErrorMsg);
+            }
+        }
+
+        // Call this method from the main activity to shut down the connection.
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Could not close the connect socket", e);
+            }
+        }
+    }
+
+
 }

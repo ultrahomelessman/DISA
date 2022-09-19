@@ -22,12 +22,12 @@ public class data {
     @SerializedName("phone_num")
     @Expose
     private String phoneNum;
+    @SerializedName("credit")
+    @Expose
+    private Integer credit;
     @SerializedName("role_id")
     @Expose
     private Integer roleId;
-    @SerializedName("motor_id")
-    @Expose
-    private Object motorId;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -83,20 +83,20 @@ public class data {
         this.phoneNum = phoneNum;
     }
 
+    public Integer getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
+
     public Integer getRoleId() {
         return roleId;
     }
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
-    }
-
-    public Object getMotorId() {
-        return motorId;
-    }
-
-    public void setMotorId(Object motorId) {
-        this.motorId = motorId;
     }
 
     public String getCreatedAt() {
