@@ -1,7 +1,6 @@
 package com.example.bismillah_motor_listrik;
 
 import static android.content.ContentValues.TAG;
-import static android.text.TextUtils.split;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -23,12 +22,12 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +45,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -69,6 +67,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -88,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String KEY_NAME = "NAMA";
     private GoogleMap mMap;
     private Geocoder geocoder;
-    private  int ACCESS_LOCATION_REQUEST_CODE = 10001;
+    private int ACCESS_LOCATION_REQUEST_CODE = 10001;
     private ActivityMapsBinding binding;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
@@ -98,11 +97,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker userLocationMarker;
     Circle userLocationAccuracyCircle;
 
+    //TODO Bluetooth service
+
+    private UUID mDeviceUUID;
+
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter btAdapter;
+    private BluetoothSocket mBTSocket;
+    private BluetoothDevice mDevice;
+
+
 
     //Declare timer
     CountDownTimer cTimer = null;
+    private int level;
+
 
     @SuppressLint("MissingPermission")
     @Override
@@ -141,8 +150,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         java.util.Date noteTS = Calendar.getInstance().getTime();
 
-        String time = "hh:mm%"; // 12:00
-        battery.setText(DateFormat.format(time, noteTS));
+
+
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -160,7 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 String a = btn.getText().toString();
-                if(a == "Resume") {
+                if (a == "Resume") {
                     btn.setText("Standby");
                 } else {
                     btn.setText("");
@@ -178,6 +187,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BluetoothStart();
 
         loopRealtime();
+
+        BatteryTrigger();
+
+
+        //TODO HP Battery Service
+
+        this.registerReceiver(this.mBatInfoReceive, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
 
 
@@ -402,6 +418,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
+
     //TODO Create a BroadcastReceiver for ACTION_FOUND.
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -476,15 +493,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager
                 .PERMISSION_GRANTED) {
-                    enableUserLocation();
+            enableUserLocation();
 //                    zoomToUserLocation();
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //Dialog Why Permission Important
-                ActivityCompat.requestPermissions(this, new  String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         ACCESS_LOCATION_REQUEST_CODE);
             } else {
-                ActivityCompat.requestPermissions(this, new  String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         ACCESS_LOCATION_REQUEST_CODE);
             }
         }
@@ -525,8 +542,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
-    public void stringLocation(Location location){
-
+    public void stringLocation(Location location) {
 
 
     }
@@ -562,7 +578,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void realtime() {
 
-        LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         @SuppressLint("MissingPermission") Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 //        double longitude = location.getLongitude();
 //        double latitude = location.getLatitude();
@@ -597,10 +613,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         call.enqueue(new Callback<PostMotor>() {
             @Override
             public void onResponse(Call<PostMotor> call, Response<PostMotor> response) {
-                if (!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     return;
                 }
-                Toast.makeText(MapsActivity.this,"Berhasil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Berhasil", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -610,18 +626,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void setUserLocationMarker(Location location){
+    private void setUserLocationMarker(Location location) {
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
 
-        if (userLocationMarker == null){
+        if (userLocationMarker == null) {
             //Create New Marker
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dasd));
             markerOptions.rotation(location.getBearing());
-            markerOptions.anchor((float) 0.5,(float) 0.5);
+            markerOptions.anchor((float) 0.5, (float) 0.5);
             userLocationMarker = mMap.addMarker(markerOptions);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         } else {
@@ -631,12 +647,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         }
 
-        if (userLocationAccuracyCircle == null){
+        if (userLocationAccuracyCircle == null) {
             CircleOptions circleOptions = new CircleOptions();
             circleOptions.center(latLng);
             circleOptions.strokeWidth(4);
-            circleOptions.strokeColor(Color.argb(255,255,0,0));
-            circleOptions.fillColor(Color.argb(255,255,0,0));
+            circleOptions.strokeColor(Color.argb(255, 255, 0, 0));
+            circleOptions.fillColor(Color.argb(255, 255, 0, 0));
             circleOptions.radius(location.getAccuracy());
             userLocationAccuracyCircle = mMap.addCircle(circleOptions);
         } else {
@@ -647,12 +663,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @SuppressLint("MissingPermission")
-    private void startLocationUpdates(){
+    private void startLocationUpdates() {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
     }
 
-    private void  stopLocationUpdates(){
+    private void stopLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
 
@@ -678,16 +694,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
     }
 
-    private void zoomToUserLocation(){
-       @SuppressLint("MissingPermission") Task<Location> locationTask =  fusedLocationProviderClient.getLastLocation();
-       locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
-           @Override
-           public void onSuccess(Location location) {
+    private void zoomToUserLocation() {
+        @SuppressLint("MissingPermission") Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
+        locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 20));
 //                mMap.addMarker(new MarkerOptions().position(latLng));
-           }
-       });
+            }
+        });
     }
 
 //    @Override
@@ -739,14 +755,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            if (requestCode == ACCESS_LOCATION_REQUEST_CODE) {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    enableUserLocation();
-                    zoomToUserLocation();
-                } else {
-                  //Showing Dialog That permission is not granted...
-                }
+        if (requestCode == ACCESS_LOCATION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableUserLocation();
+                zoomToUserLocation();
+            } else {
+                //Showing Dialog That permission is not granted...
             }
+        }
     }
 
     @Override
@@ -755,7 +771,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /** Called when the user touches the button */
+    /**
+     * Called when the user touches the button
+     */
 //    public void standBy(View view) {
 //        stopLocationUpdates();
 //        startTimer();
@@ -768,6 +786,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         cTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
+
             public void onFinish() {
             }
         };
@@ -776,102 +795,146 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //cancel timer
     void cancelTimer() {
-        if(cTimer!=null)
+        if (cTimer != null)
             cTimer.cancel();
     }
 
 
+    // Defines several constants used when transmitting messages between the
+    // service and the UI.
+    public interface MessageConstants {
+        public static final int MESSAGE_READ = 0;
+        public static final int MESSAGE_WRITE = 1;
+        public static final int MESSAGE_TOAST = 2;
 
+        // ... (Add other message types here as needed.)
+    }
 
-        // Defines several constants used when transmitting messages between the
-        // service and the UI.
-        public interface MessageConstants {
-            public static final int MESSAGE_READ = 0;
-            public static final int MESSAGE_WRITE = 1;
-            public static final int MESSAGE_TOAST = 2;
+    private class ConnectedThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+        private byte[] mmBuffer; // mmBuffer store for the stream
 
-            // ... (Add other message types here as needed.)
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            // Get the input and output streams; using temp objects because
+            // member streams are final.
+            try {
+                tmpIn = socket.getInputStream();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating input stream", e);
+            }
+            try {
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating output stream", e);
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
         }
 
-        private class ConnectedThread extends Thread {
-            private final BluetoothSocket mmSocket;
-            private final InputStream mmInStream;
-            private final OutputStream mmOutStream;
-            private byte[] mmBuffer; // mmBuffer store for the stream
+        public void run() {
+            mmBuffer = new byte[1024];
+            int numBytes; // bytes returned from read()
 
-            public ConnectedThread(BluetoothSocket socket) {
-                mmSocket = socket;
-                InputStream tmpIn = null;
-                OutputStream tmpOut = null;
-
-                // Get the input and output streams; using temp objects because
-                // member streams are final.
+            // Keep listening to the InputStream until an exception occurs.
+            while (true) {
                 try {
-                    tmpIn = socket.getInputStream();
+                    // Read from the InputStream.
+                    numBytes = mmInStream.read(mmBuffer);
+                    // Send the obtained bytes to the UI activity.
+                    Message readMsg = handler.obtainMessage(
+                            MessageConstants.MESSAGE_READ, numBytes, -1,
+                            mmBuffer);
+                    readMsg.sendToTarget();
                 } catch (IOException e) {
-                    Log.e(TAG, "Error occurred when creating input stream", e);
-                }
-                try {
-                    tmpOut = socket.getOutputStream();
-                } catch (IOException e) {
-                    Log.e(TAG, "Error occurred when creating output stream", e);
-                }
-
-                mmInStream = tmpIn;
-                mmOutStream = tmpOut;
-            }
-
-            public void run() {
-                mmBuffer = new byte[1024];
-                int numBytes; // bytes returned from read()
-
-                // Keep listening to the InputStream until an exception occurs.
-                while (true) {
-                    try {
-                        // Read from the InputStream.
-                        numBytes = mmInStream.read(mmBuffer);
-                        // Send the obtained bytes to the UI activity.
-                        Message readMsg = handler.obtainMessage(
-                                MessageConstants.MESSAGE_READ, numBytes, -1,
-                                mmBuffer);
-                        readMsg.sendToTarget();
-                    } catch (IOException e) {
-                        Log.d(TAG, "Input stream was disconnected", e);
-                        break;
-                    }
+                    Log.d(TAG, "Input stream was disconnected", e);
+                    break;
                 }
             }
+        }
 
-            // Call this from the main activity to send data to the remote device.
-            public void write(byte[] bytes) {
-                try {
-                    mmOutStream.write(bytes);
+        // Call this from the main activity to send data to the remote device.
+        public void write(byte[] bytes) {
+            try {
+                mmOutStream.write(bytes);
 
-                    // Share the sent message with the UI activity.
-                    Message writtenMsg = handler.obtainMessage(
-                            MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-                    writtenMsg.sendToTarget();
-                } catch (IOException e) {
-                    Log.e(TAG, "Error occurred when sending data", e);
+                // Share the sent message with the UI activity.
+                Message writtenMsg = handler.obtainMessage(
+                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
+                writtenMsg.sendToTarget();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when sending data", e);
 
-                    // Send a failure message back to the activity.
-                    Message writeErrorMsg =
-                            handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("toast",
-                            "Couldn't send data to the other device");
-                    writeErrorMsg.setData(bundle);
-                    handler.sendMessage(writeErrorMsg);
-                }
+                // Send a failure message back to the activity.
+                Message writeErrorMsg =
+                        handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
+                Bundle bundle = new Bundle();
+                bundle.putString("toast",
+                        "Couldn't send data to the other device");
+                writeErrorMsg.setData(bundle);
+                handler.sendMessage(writeErrorMsg);
             }
+        }
 
-            // Call this method from the main activity to shut down the connection.
-            public void cancel() {
-                try {
-                    mmSocket.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "Could not close the connect socket", e);
-                }
+        // Call this method from the main activity to shut down the connection.
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Could not close the connect socket", e);
             }
         }
     }
+
+    private BroadcastReceiver mBatInfoReceive = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            TextView battery = (TextView) findViewById(R.id.baterry);
+            int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+
+            String str = new String(String.valueOf(level));
+            battery.setText(str);
+
+
+            }
+    };
+
+    public void BatteryTrigger(){
+
+         level = Integer.parseInt(String.valueOf(mBatInfoReceive));
+        String str = new String(String.valueOf(level));
+        if (level <= 50) {
+
+            try {
+                //TODO Battery HP Charge
+                String sendtxt = "LN";
+                mBTSocket.getOutputStream().write(sendtxt.getBytes());
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        if (level == 100) {
+
+            try {
+                //TODO Battery HP Charge
+                String sendtxt = "LN";
+                mBTSocket.getOutputStream().write(sendtxt.getBytes());
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}
