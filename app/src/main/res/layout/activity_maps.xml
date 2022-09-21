@@ -1,23 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#131313">
+    android:background="#0e0e0e">
 
-    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="545dp"
+        android:layout_width="530dp"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.0"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.0"
+        tools:context=".MapsActivity">
+    </fragment>
+
+    <LinearLayout
+        android:layout_width="115dp"
+        android:layout_height="70dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.76"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.95"
+        android:background="@drawable/bg_prescan">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonpopup"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_buttongray"
+        android:fontFamily="@font/semibold"
+        android:text="Standby"
+        android:textColor="#0e0e0e"
+        android:textAllCaps="false"
+        android:textSize="10dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.877"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.95">
+
+    </Button>
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_buttonred"
+        android:fontFamily="@font/semibold"
+        android:text="OFF"
+        android:textAllCaps="false"
+        android:textSize="10dp"
+        android:textColor="#0e0e0e"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.979"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.95">
+
+    </Button>
 
     <LinearLayout
         android:layout_width="275dp"
         android:layout_height="280dp"
-        android:layout_marginLeft="561dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/bg_prescan">
+        android:background="@drawable/bg_prescan"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.97"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.141">
 
         <RelativeLayout
             android:layout_width="275dp"
@@ -37,10 +99,9 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="13dp"
-                        android:src="@drawable/ic_outline_battery_charging_full_24"
+                        android:layout_marginLeft="7dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginLeft="7dp">
-                    </ImageView>
+                        android:src="@drawable/ic_outline_battery_charging_full_24"></ImageView>
 
                     <TextView
                         android:layout_width="60dp"
@@ -51,7 +112,7 @@
                         android:text="Battery"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"></TextView>
 
                     <TextView
                         android:id="@+id/baterry"
@@ -60,10 +121,10 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="25dp"
                         android:fontFamily="@font/bolditalic"
-                        android:text="@string/battery"
+                        android:text="100%"
                         android:textAlignment="center"
                         android:textColor="#85b5f9"
-                        android:textSize="20dp" />
+                        android:textSize="20dp"></TextView>
 
 
                 </RelativeLayout>
@@ -73,8 +134,8 @@
             <LinearLayout
                 android:layout_width="80dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="210dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="210dp"
                 android:background="@drawable/bg_lightgreykecil">
 
                 <RelativeLayout
@@ -84,46 +145,42 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="13dp"
-                        android:src="@drawable/ic_baseline_linear_scale_24"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginLeft="10dp">
-                    </ImageView>
+                        android:src="@drawable/ic_baseline_linear_scale_24"></ImageView>
 
                     <TextView
                         android:layout_width="60dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="17dp"
                         android:layout_marginTop="7dp"
-                        android:text="Jarak"
                         android:fontFamily="@font/semibold"
-                        android:textSize="10dp"
+                        android:text="Jarak"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="10dp"></TextView>
 
                     <TextView
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="-5dp"
                         android:layout_marginTop="25dp"
-                        android:text="50"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="20dp"
+                        android:text="50"
+                        android:textAlignment="center"
                         android:textColor="#cbffbf"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="20dp"></TextView>
 
                     <TextView
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="35dp"
                         android:layout_marginTop="35dp"
-                        android:text="km"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="10dp"
+                        android:text="km"
+                        android:textAlignment="center"
                         android:textColor="#cbffbf"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="10dp"></TextView>
 
                 </RelativeLayout>
 
@@ -143,10 +200,9 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="13dp"
-                        android:src="@drawable/ic_baseline_brightness_5_24"
+                        android:layout_marginLeft="13dp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginLeft="13dp">
-                    </ImageView>
+                        android:src="@drawable/ic_baseline_brightness_5_24"></ImageView>
 
                     <TextView
                         android:layout_width="60dp"
@@ -157,43 +213,40 @@
                         android:text="Suhu"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10dp" />
+                        android:textSize="10dp"></TextView>
 
                     <TextView
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="-5dp"
                         android:layout_marginTop="25dp"
-                        android:text="18"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="20dp"
+                        android:text="18"
+                        android:textAlignment="center"
                         android:textColor="#ffe652"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="20dp"></TextView>
 
                     <TextView
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="25dp"
                         android:layout_marginTop="25dp"
-                        android:text="o"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="10dp"
+                        android:text="o"
+                        android:textAlignment="center"
                         android:textColor="#ffe652"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="10dp"></TextView>
 
                     <TextView
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="37dp"
                         android:layout_marginTop="34dp"
-                        android:text="C"
                         android:fontFamily="@font/bolditalic"
-                        android:textSize="12dp"
+                        android:text="C"
+                        android:textAlignment="center"
                         android:textColor="#ffe652"
-                        android:textAlignment="center">
-                    </TextView>
+                        android:textSize="12dp"></TextView>
 
                 </RelativeLayout>
 
@@ -202,24 +255,22 @@
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="30dp"
-                android:text="Saldo"
-                android:fontFamily="@font/semibold"
-                android:textColor="@color/white"
-                android:textSize="12dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp">
-            </TextView>
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/semibold"
+                android:text="Saldo"
+                android:textColor="@color/white"
+                android:textSize="12dp"></TextView>
 
             <TextView
                 android:layout_width="90dp"
                 android:layout_height="40dp"
-                android:text="Rp100.000"
-                android:fontFamily="@font/monserat"
-                android:textColor="@color/white"
-                android:textSize="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="25dp">
-            </TextView>
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/monserat"
+                android:text="Rp100.000"
+                android:textColor="@color/white"
+                android:textSize="15dp"></TextView>
 
             <LinearLayout
                 android:layout_width="90dp"
@@ -243,22 +294,26 @@
             <View
                 android:layout_width="250dp"
                 android:layout_height="1dp"
-                android:background="@drawable/line"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="52dp">
-            </View>
+                android:layout_marginTop="52dp"
+                android:background="@drawable/line"></View>
 
             <TextView
                 android:layout_width="250dp"
                 android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="35dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="95dp"
                 android:fontFamily="@font/bolditalic"
                 android:text="25"
-                android:textSize="120dp"
+                android:textAlignment="center"
                 android:textColor="#82BE65"
-                android:textAlignment="center">
-            </TextView>
+                android:textSize="120dp"></TextView>
 
             <TextView
                 android:layout_width="250dp"
@@ -267,78 +322,42 @@
                 android:layout_marginTop="170dp"
                 android:fontFamily="@font/bolditalic"
                 android:text="km/h"
-                android:textSize="15dp"
-                android:textColor="@color/white"
-                android:textAlignment="center">
-            </TextView>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="115dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="561dp"
-        android:layout_marginTop="305dp"
-        android:background="@drawable/bg_prescan">
-        <RelativeLayout
-            android:layout_width="110dp"
-            android:layout_height="70dp">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="17dp"
-                android:fontFamily="@font/semibold"
-                android:text="Tagihan"
-                android:textColor="@color/white"
-                android:textSize="12dp"></TextView>
-
-            <TextView
-                android:layout_width="90dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="33dp"
-                android:fontFamily="@font/monserat"
-                android:text="Rp80.000"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15dp"></TextView>
 
-
-
-
         </RelativeLayout>
-
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_stnby"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="686dp"
-        android:layout_marginTop="305dp"
-        android:background="@drawable/bg_buttongray"
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="-400dp"
+        android:layout_marginTop="275dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        android:text="Tagihan"
+        android:textColor="@color/white"
         android:fontFamily="@font/semibold"
-        android:onClick="standBy"
-        android:text="Standby"
-        android:textAllCaps="false"
-        android:textSize="10dp">
+        android:textSize="12dp">
+    </TextView>
 
-    </Button>
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="-400dp"
         android:layout_marginTop="305dp"
-        android:layout_marginLeft="765dp"
-        android:background="@drawable/bg_buttonred"
-        android:text="OFF"
-        android:textAllCaps="false"
-        android:fontFamily="@font/semibold"
-        android:textSize="10dp">
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        android:text="Rp75.000"
+        android:textColor="@color/white"
+        android:fontFamily="@font/monserat"
+        android:textSize="15dp">
+    </TextView>
 
-    </Button>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

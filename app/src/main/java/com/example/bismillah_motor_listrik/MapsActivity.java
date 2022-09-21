@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -59,6 +61,9 @@ import java.util.Set;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
+    Dialog myDialog;
+    private Button buttonpopup;
+    private View decorView;
     private GoogleMap mMap;
     private Geocoder geocoder;
     private  int ACCESS_LOCATION_REQUEST_CODE = 10001;
@@ -84,6 +89,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        myDialog = new Dialog(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -105,19 +112,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        btn = findViewById(R.id.btn_stnby);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        decorView = getWindow() .getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
-            public void onClick(View v) {
-                String a = btn.getText().toString();
-                if(a == "Resume") {
-                    btn.setText("Standby");
-                } else {
-                    btn.setText("");
-                }
+            public void onSystemUiVisibilityChange(int visibility) {
+                if (visibility == 0)
+                    decorView.setSystemUiVisibility(hideSystemBars());
             }
         });
+
+        buttonpopup = (Button) findViewById(R.id.buttonpopup);
+        buttonpopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openstandbypopup();
+            }
+        });
+
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -127,6 +140,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 //        CheckBluetoothState();
         BluetoothStart();
+    }
+
+    public void openstandbypopup(){
+        Intent intent = new Intent(this, standbypopupp.class);
+        startActivity(intent);
+    }
+
+    public void ShowPopup (View v){
+        myDialog.setContentView(R.layout.activity_standbypopupp);
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus){
+            decorView.setSystemUiVisibility(hideSystemBars());
+        }
+    }
+
+    private int hideSystemBars(){
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
 
     //TODO BLUETOOTH
