@@ -107,7 +107,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private BluetoothDevice mDevice;
 
 
-
     //Declare timer
     CountDownTimer cTimer = null;
     private int level;
@@ -151,9 +150,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         java.util.Date noteTS = Calendar.getInstance().getTime();
 
 
-
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationRequest = LocationRequest.create();
@@ -188,13 +184,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         loopRealtime();
 
-        BatteryTrigger();
+//        BatteryTrigger();
 
 
         //TODO HP Battery Service
 
         this.registerReceiver(this.mBatInfoReceive, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
 
 
 //        btn_off.setOnClickListener(new View.OnClickListener() {
@@ -553,6 +548,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void run() {
                 realtime();
                 loopRealtime();
+//                BatteryTrigger();
             }
         };
         handler.postDelayed(runnable3, 10000);
@@ -901,40 +897,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 
             String str = new String(String.valueOf(level));
+
+            int batu = Integer.parseInt(str);
             battery.setText(str);
 
-
+            if (batu <= 50) {
+                chargePhone();
             }
+
+            if (batu == 100) {
+
+                chargeDone();
+            }
+
+
+        }
     };
+    
+    public void chargePhone(){
 
-    public void BatteryTrigger(){
-
-         level = Integer.parseInt(String.valueOf(mBatInfoReceive));
-        String str = new String(String.valueOf(level));
-        if (level <= 50) {
-
-            try {
-                //TODO Battery HP Charge
-                String sendtxt = "LN";
-                mBTSocket.getOutputStream().write(sendtxt.getBytes());
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        if (level == 100) {
-
-            try {
-                //TODO Battery HP Charge
-                String sendtxt = "LN";
-                mBTSocket.getOutputStream().write(sendtxt.getBytes());
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
+        Toast.makeText(this, "BANGSAT", Toast.LENGTH_SHORT).show();
+//        try {
+//            //TODO Battery HP Charge
+//            String sendtxt = "LN";
+//            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
     }
+    
+    public void chargeDone () {
+
+        Toast.makeText(this, "ANJING", Toast.LENGTH_SHORT).show();
+//        try {
+//            //TODO Battery HP Charge
+//            String sendtxt = "LN";
+//            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();T
+//        }
+    }
+
+
 }
