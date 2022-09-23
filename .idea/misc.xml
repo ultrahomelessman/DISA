@@ -14,11 +14,14 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/drawable/ic_outline_battery_charging_full_24.xml" value="0.1" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/drawable/line.xml" value="0.1" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_bluetooth_fragment.xml" value="0.1" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_maps.xml" value="0.264" />
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_scanner.xml" value="0.4" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_maps.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_scanner.xml" value="0.176" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_standbypopupp.xml" value="0.14572649572649574" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/activity_tampilan.xml" value="0.20854700854700856" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/list_item.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/layout/list_view.xml" value="0.19655797101449277" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/mipmap-hdpi/ic_logoku.xml" value="0.1" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Bismillah_Motor_Listrik231/app/src/main/res/mipmap-hdpi/ic_logoku_round.xml" value="0.1" />
@@ -29,30 +32,6 @@
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/bismillah_motor_listrik/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/bismillah_motor_listrik/app/src/main/res/layout/activity_maps.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/LKS Web Technology/AndroidStudioProjects/Bismillah_Motor_Listrik/app/src/main/res/layout/activity_scanner.xml" value="0.1778115501519757" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/bawah.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/bolabiru.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/buttonkuning.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/centercover.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/kotaktebal.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/lengkungkotak.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/lingkaran.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/rightshape.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/shapecover.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/shapegaris.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable-v24/shapekecil.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/backmap.xml" value="0.3625" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/bg_buttongray.xml" value="0.3635" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/bg_buttonred.xml" value="0.3635" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/bg_popup.xml" value="0.3625" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/bg_prescan.xml" value="0.3635" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/buttonsatu.xml" value="0.3635" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/drawable/ic_logosatu.xml" value="0.3595" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/activity_main.xml" value="0.2923076923076923" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/activity_maps.xml" value="0.33" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/activity_scanner.xml" value="0.294017094017094" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/activity_splash_screen.xml" value="0.294017094017094" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/activity_standbypopupp.xml" value="0.29743589743589743" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listriktgf/app/src/main/res/layout/standbypopup.xml" value="0.2965811965811966" />
       </map>
     </option>
   </component>

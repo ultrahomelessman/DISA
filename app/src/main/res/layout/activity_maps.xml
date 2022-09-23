@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonpopup"
+        android:id="@+id/btn_stnby"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/bg_buttongray"
@@ -53,6 +53,7 @@
     </Button>
 
     <Button
+        android:id="@+id/btn_off"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/bg_buttonred"
@@ -147,7 +148,7 @@
                         android:layout_height="13dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/ic_baseline_linear_scale_24"></ImageView>
+                        android:src="@drawable/ic_baseline_linear_scale_24" />
 
                     <TextView
                         android:layout_width="60dp"
@@ -158,9 +159,10 @@
                         android:text="Jarak"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="10dp"></TextView>
+                        android:textSize="10dp" />
 
                     <TextView
+                        android:id="@+id/jarak"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="-5dp"
@@ -169,7 +171,7 @@
                         android:text="50"
                         android:textAlignment="center"
                         android:textColor="#cbffbf"
-                        android:textSize="20dp"></TextView>
+                        android:textSize="20dp" />
 
                     <TextView
                         android:layout_width="70dp"
@@ -253,6 +255,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/saldo"
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
@@ -279,15 +282,15 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_timer">
 
-                <TextView
+                <Chronometer
+                    android:id="@+id/simpleChronometer"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/bolditalic"
-                    android:text="00:00:00"
                     android:textColor="@color/white"
-                    android:textSize="14dp"></TextView>
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
@@ -345,6 +348,7 @@
     </TextView>
 
     <TextView
+        android:id="@+id/tagihan"
         android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_marginEnd="-400dp"

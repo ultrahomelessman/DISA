@@ -105,6 +105,7 @@
     </Button>
 
     <TextView
+        android:id="@+id/percobaan"
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:layout_marginEnd="245dp"

@@ -2,6 +2,8 @@ package com.example.bismillah_motor_listrik;
 
 import static android.content.ContentValues.TAG;
 
+import static java.lang.System.out;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -24,15 +27,18 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +69,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -70,6 +77,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -81,7 +89,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnMapClickListener {
 
-    TextView tagihan, jarak;
+    TextView tagihan, jarak, kacau;
     String id, crd;
     Integer nilai, nl, tampil;
     Handler handler1, handler2;
@@ -96,26 +104,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
-    Button btn, btn_off, btn_resume;
+    Button btn, btn_off;
     private Handler handler; // handler that gets info from Bluetooth service
+
+    public static final String DEVICE_EXTRA = "com.example.bismillah_motor_listrik.SOCKET";
+    public static final String DEVICE_UUID = "com.example.bismillah_motor_listrik.uuid";
+    private static final String DEVICE_LIST = "com.example.bismillah_motor_listrik.devicelist";
+    private static final String DEVICE_LIST_SELECTED = "com.example.bismillah_motor_listrik.devicelistselected";
+    public static final String BUFFER_SIZE = "com.example.bismillah_motor_listrik.buffersize";
+    private static final String TAG = "BlueTest5-MainActivity";
+    private BluetoothAdapter mBTAdapter;
+    private static final int BT_ENABLE_REQUEST = 10; // This is the code we use for BT Enable
+    private static final int SETTINGS = 20;
+    private UUID mDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private int mBufferSize = 50000; //Default
+    private ReadInput mReadThread = null;
+
+    private int mMaxChars = 50000;//Default//change this to string..........
+    private BluetoothSocket mBTSocket;
+
+    final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
 
     Marker userLocationMarker;
     Circle userLocationAccuracyCircle;
 
+    private boolean mIsUserInitiatedDisconnect = false;
+    private boolean mIsBluetoothConnected = false;
+
+    private Chronometer chronometer;
+
+    private boolean running;
+
+    final Context context = this;
+
+    TextView Coundown;
+
+    private BluetoothDevice mDevice;
+
+    private static final String FORMAT = "%02d:%02d:%02d";
+
+    int seconds , minutes;
+
     //TODO Bluetooth service
 
-    private UUID mDeviceUUID;
 
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter btAdapter;
-    private BluetoothSocket mBTSocket;
-    private BluetoothDevice mDevice;
 
 
     //Declare timer
     CountDownTimer cTimer = null;
     private int level;
 
+    TextView textViewTime, saldo;
+
+    String key_device, key_mBuffer, key_mDevice;
+
+    private ProgressDialog progressDialog;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -126,6 +172,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         myDialog = new Dialog(this);
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        mDevice = b.getParcelable(Scanner.DEVICE_EXTRA);
+        mDeviceUUID = UUID.fromString(b.getString(Scanner.DEVICE_UUID));
+        mMaxChars = b.getInt(Scanner.BUFFER_SIZE);
+
+        if (mBluetoothAdapter == null) {
+            out.append("device not supported");
+        }
+
+        Log.d(TAG, "Ready");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -138,10 +196,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        Credit
         tagihan = findViewById(R.id.tagihan);
         jarak = findViewById(R.id.jarak);
-
 //        ambil id
         Bundle extras = getIntent().getExtras();
         id = extras.getString(KEY_NAME);
+        key_device = extras.getString(key_device);
+        key_mDevice = extras.getString(key_mDevice);
+        key_mBuffer = extras.getString(key_mBuffer);
+        saldo = findViewById(R.id.saldo);
+
+        saldo.setText(key_device);
+
 
 //        Function billing
         credit();
@@ -167,8 +231,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        btn = findViewById(R.id.btn_stnby);
-        btn_resume = findViewById(R.id.btn_resume);
         btn_off = findViewById(R.id.btn_off);
 
         decorView = getWindow() .getDecorView();
@@ -180,13 +242,67 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        buttonpopup = (Button) findViewById(R.id.buttonpopup);
+        buttonpopup = (Button) findViewById(R.id.btn_stnby);
         buttonpopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openstandbypopup();
+
+                // create a Dialog component
+                final Dialog dialog = new Dialog(context);
+
+                //tell the Dialog to use the dialog.xml as it's layout description
+                dialog.setContentView(R.layout.activity_standbypopupp);
+//                dialog.setTitle("Android Custom Dialog Box");
+                dialog.setCancelable(false);
+
+                Standby();
+                motorOff();
+                TextView ada = (TextView) dialog.findViewById(R.id.countdown);
+//                TextView txt = (TextView) dialog.findViewById(R.id.txt);
+                new CountDownTimer(300000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+//                        ada.setText("" + millisUntilFinished / 1000);
+                        ada.setText(""+String.format(FORMAT,
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                    }
+
+                    public void onFinish() {
+                        ada.setText("done!");
+                        Off();
+                        Intent i = new Intent(MapsActivity.this, MainActivity.class);
+                        startActivity(i);
+                        return;
+                    }
+                }.start();
+
+//                txt.setText("This is an Android custom Dialog Box Example! Enjoy!");
+
+                Button dialogButton = (Button) dialog.findViewById(R.id.btn_resume);
+
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Resume();
+                        motorOn();
+
+                    }
+                });
+
+                dialog.show();
             }
         });
+
+//            @Override
+//            public void onClick(View view) {
+//                openstandbypopup();
+//            }
+//        });
 
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -222,48 +338,66 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Standby();
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Standby();
+//
+//            }
+//        });
 
-            }
-        });
+//        btn_resume.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Resume();
+//            }
+//        });
 
-        btn_resume.setOnClickListener(new View.OnClickListener() {
+        textViewTime = (TextView)findViewById(R.id.countdown);
 
-            @Override
-            public void onClick(View v) {
-                Resume();
-            }
-        });
+//        Chronometer simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer); // initiate a chronometer
+
+//        simpleChronometer.start(); // start a chronometer
+
+
+
     }
 
 
     private void Standby() {
-        btn.setVisibility(View.INVISIBLE);
-        btn_resume.setVisibility(View.VISIBLE);
+//        btn_resume.setVisibility(View.VISIBLE);
+//        btn.setVisibility(View.INVISIBLE);
 //        btn_off.setVisibility(View.VISIBLE);
         handler1.removeCallbacks(runnable1);
         handler2.removeCallbacks(runnable2);
+
+//        Chronometer simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer); // initiate a chronometer
+
+//        simpleChronometer.stop(); // start a chronometer
 
         onStop();
     }
 
 
     private void Resume() {
-        btn.setVisibility(View.VISIBLE);
-        btn_resume.setVisibility(View.INVISIBLE);
+//        btn.setVisibility(View.VISIBLE);
+//        btn_resume.setVisibility(View.INVISIBLE);
         if (tampil != 0) {
             jarak();
             setCredit();
         }
         onStart();
+//        Chronometer simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer); // initiate a chronometer
+//        simpleChronometer.start(); // start a chronometer
     }
 
     private void Off() {
         onStop();
         stop();
+//        Chronometer simpleChronometer = (Chronometer) findViewById(R.id.simpleChronometer); // initiate a chronometer
+//
+//        simpleChronometer.start(); // start a chronometer
         return;
 
     }
@@ -404,10 +538,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    public void openstandbypopup(){
-        Intent intent = new Intent(this, standbypopupp.class);
-        startActivity(intent);
-    }
+//    public void openstandbypopup(){
+//        Intent intent = new Intent(this, standbypopupp.class);
+//        startActivity(intent);
+//    }
 
     public void ShowPopup (View v){
         myDialog.setContentView(R.layout.activity_standbypopupp);
@@ -603,6 +737,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handler.removeCallbacks(runnable3);
                 Off();
                 habis();
+                motorOff();
                 return;
             }
         });
@@ -706,6 +841,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void startLocationUpdates() {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
+
     }
 
     private void stopLocationUpdates() {
@@ -725,6 +861,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onStop() {
+        Log.d(TAG, "Stopped");
         super.onStop();
         stopLocationUpdates();
     }
@@ -822,22 +959,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    }
 
     //start timer function
-    void startTimer() {
-        cTimer = new CountDownTimer(30000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-
-            public void onFinish() {
-            }
-        };
-        cTimer.start();
-    }
-
-    //cancel timer
-    void cancelTimer() {
-        if (cTimer != null)
-            cTimer.cancel();
-    }
+//    void startTimer() {
+//        countdown = (TextView) findViewById(R.id.countdown);
+//        cTimer = new CountDownTimer(300000, 1000) {
+//            public void onTick(long millisUntilFinished) {
+//                countdown.setText("seconds remaining: " + millisUntilFinished / 1000);
+//            }
+//
+//            public void onFinish() {
+//            }
+//        };
+//        cTimer.start();
+//    }
+//
+//    //cancel timer
+//    void cancelTimer() {
+//        if (cTimer != null)
+//            cTimer.cancel();
+//    }
 
 
     // Defines several constants used when transmitting messages between the
@@ -960,7 +1099,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void chargePhone(){
 
-        Toast.makeText(this, "BANGSAT", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show();
 //        try {
 //            //TODO Battery HP Charge
 //            String sendtxt = "LN";
@@ -974,7 +1113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void chargeDone () {
 
-        Toast.makeText(this, "ANJING", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "TEST2", Toast.LENGTH_SHORT).show();
 //        try {
 //            //TODO Battery HP Charge
 //            String sendtxt = "LN";
@@ -985,6 +1124,279 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            e.printStackTrace();T
 //        }
     }
+
+
+
+//    public void startTimer(){
+//        int hoursToGo = 0;
+//        int minutesToGo = 0;
+//        int secondsToGo = 10;
+//
+//        int millisToGo = secondsToGo*1000+minutesToGo*1000*60+hoursToGo*1000*60*60;
+//
+//        new CountDownTimer(millisToGo,1000) {
+//
+//            @Override
+//            public void onTick(long millis) {
+//                int seconds = (int) (millis / 1000) % 60 ;
+//                int minutes = (int) ((millis / (1000*60)) % 60);
+//                String text = String.format("%02d:%02d",minutes,seconds);
+//                tv.setText(text);
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                tv.setText("Request Timeout");
+//            }
+//        }.start();
+//
+//        final AlertDialog d = (AlertDialog) getDialog();
+//        final Timer timer2 = new Timer();
+//        timer2.schedule(new TimerTask() {
+//            public void run() {
+//                d.dismiss();
+//                timer2.cancel(); //this will cancel the timer of the system
+//
+//                Intent i =  new Intent(getActivity(), PromoActivity.class);
+//                i.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+//                getActivity().startActivityForResult(i,0);
+//            }
+//        }, 10000);
+//    }
+
+    private void motorOn() {
+
+        ByteArrayOutputStream stream
+                = new ByteArrayOutputStream();
+
+        // Initializing string
+//        String st = "0";
+
+        // writing the specified byte to the output stream
+        try {
+            String sendtxt = "0";
+            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // converting stream to byte array
+        // and typecasting into string
+//        String finalString
+//                = new String(stream.toByteArray());
+//
+//        // printing the final string
+//        System.out.println(finalString);
+
+    }
+
+    private void motorOff() {
+
+        ByteArrayOutputStream stream
+                = new ByteArrayOutputStream();
+
+        // Initializing string
+//        String st = "0";
+
+        // writing the specified byte to the output stream
+        try {
+            String sendtxt = "1";
+            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // converting stream to byte array
+        // and typecasting into string
+//        String finalString
+//                = new String(stream.toByteArray());
+//
+//        // printing the final string
+//        System.out.println(finalString);
+
+    }
+
+    private class ConnectBT extends AsyncTask<Void, Void, Void> {
+        private boolean mConnectSuccessful = true;
+
+        @Override
+        protected void onPreExecute() {
+
+            progressDialog = ProgressDialog.show(MapsActivity.this, "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
+
+        }
+
+        @SuppressLint("MissingPermission")
+        @Override
+        protected Void doInBackground(Void... devices) {
+
+            try {
+                if (mBTSocket == null || !mIsBluetoothConnected) {
+                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+                    mBTSocket.connect();
+                }
+            } catch (IOException e) {
+// Unable to connect to device`
+                // e.printStackTrace();
+                mConnectSuccessful = false;
+
+
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            if (!mConnectSuccessful) {
+                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                msg("Connected to device");
+                mIsBluetoothConnected = true;
+                mReadThread = new ReadInput(); // Kick off input reader
+            }
+
+            progressDialog.dismiss();
+        }
+
+    }
+    private void msg(String s) {
+        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+    }
+    private class ReadInput implements Runnable {
+
+        private boolean bStop = false;
+        private Thread t;
+
+        public ReadInput() {
+            t = new Thread(this, "Input Thread");
+            t.start();
+        }
+
+        public boolean isRunning() {
+            return t.isAlive();
+        }
+
+        @Override
+        public void run() {
+            InputStream inputStream;
+
+            try {
+                inputStream = mBTSocket.getInputStream();
+
+                inputStream = mBTSocket.getInputStream();
+                while (!bStop) {
+                    byte[] buffer = new byte[256];
+                    if (inputStream.available() > 0) {
+                        inputStream.read(buffer);
+                        int i = 0;
+
+                        /*
+                         * This is needed because new String(buffer) is taking the entire buffer i.e. 256 chars on Android 2.3.4 http://stackoverflow.com/a/8843462/1287554
+                         */
+                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
+                        }
+                        final String strInput = new String(buffer, 0, i);
+
+                        /*
+                         * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
+                         */
+
+
+
+                    }
+                    Thread.sleep(500);
+                }
+            } catch (IOException e) {
+// TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+// TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        public void stop() {
+            bStop = true;
+        }
+
+    }
+
+    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {//cant inderstand these dotss
+
+            if (mReadThread != null) {
+                mReadThread.stop();
+                while (mReadThread.isRunning())
+                    ; // Wait until it stops
+                mReadThread = null;
+
+            }
+
+            try {
+                mBTSocket.close();
+            } catch (IOException e) {
+// TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            mIsBluetoothConnected = false;
+            if (mIsUserInitiatedDisconnect) {
+                finish();
+            }
+        }
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        if (mBTSocket != null && mIsBluetoothConnected) {
+            new DisConnectBT().execute();
+        }
+        Log.d(TAG, "Paused");
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if (mBTSocket == null || !mIsBluetoothConnected) {
+            new ConnectBT().execute();
+        }
+        Log.d(TAG, "Resumed");
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+// TODO Auto-generated method stub
+        super.onSaveInstanceState(outState);
+    }
+
+
+
+
 
 
 }

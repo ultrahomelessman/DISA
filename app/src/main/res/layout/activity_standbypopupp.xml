@@ -19,7 +19,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
 
     </LinearLayout>
 
@@ -41,7 +42,7 @@
     </TextView>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_resume"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:background="@drawable/buttonkuning"
@@ -66,12 +67,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.714">
+        app:layout_constraintVertical_bias="0.714"
+        android:orientation="horizontal">
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/countdown"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:fontFamily="@font/bolditalic"
