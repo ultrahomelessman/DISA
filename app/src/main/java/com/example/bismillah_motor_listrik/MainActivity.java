@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActivityHelper.initialize(this);
+//        ActivityHelper.initialize(this);
 
         decorView = getWindow() .getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -84,11 +84,11 @@ public class MainActivity extends Activity {
             }
         });
 
-        Intent intent = getIntent();
-        Bundle b = intent.getExtras();
-        mDevice = b.getParcelable(BluetoothFragment.DEVICE_EXTRA);
-        mDeviceUUID = UUID.fromString(b.getString(BluetoothFragment.DEVICE_UUID));
-        mMaxChars = b.getInt(BluetoothFragment.BUFFER_SIZE);
+//        Intent intent = getIntent();
+//        Bundle b = intent.getExtras();
+//        mDevice = b.getParcelable(BluetoothFragment.DEVICE_EXTRA);
+//        mDeviceUUID = UUID.fromString(b.getString(BluetoothFragment.DEVICE_UUID));
+//        mMaxChars = b.getInt(BluetoothFragment.BUFFER_SIZE);
 
         Log.d(TAG, "Ready");
 
@@ -103,10 +103,10 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(getApplicationContext(), Scanner.class);
-                BluetoothDevice device = (mDevice);
-                intent.putExtra(DEVICE_EXTRA, device);
-                intent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
-                intent.putExtra(BUFFER_SIZE, mBufferSize);
+//                BluetoothDevice device = (mDevice);
+//                intent.putExtra(DEVICE_EXTRA, device);
+//                intent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
+//                intent.putExtra(BUFFER_SIZE, mBufferSize);
 
                 startActivity(intent);
 //                motor();
@@ -265,10 +265,10 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
-        if (mBTSocket == null || !mIsBluetoothConnected) {
-            new ConnectBT().execute();
-        }
-        Log.d(TAG, "Resumed");
+//        if (mBTSocket == null || !mIsBluetoothConnected) {
+//            new ConnectBT().execute();
+//        }
+//        Log.d(TAG, "Resumed");
         super.onResume();
     }
 
@@ -286,57 +286,57 @@ public class MainActivity extends Activity {
 
 
 
-    private class ConnectBT extends AsyncTask<Void, Void, Void> {
-        private boolean mConnectSuccessful = true;
-
-        @Override
-        protected void onPreExecute() {
-
-            progressDialog = ProgressDialog.show(MainActivity.this, "Hold On", "Connecting To Motorcycle...");// http://stackoverflow.com/a/11130220/1287554
-
-        }
-
-        @SuppressLint("MissingPermission")
-        @Override
-        protected Void doInBackground(Void... devices) {
-
-            try {
-                if (mBTSocket == null || !mIsBluetoothConnected) {
-                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                    mBTSocket.connect();
-                }
-            } catch (IOException e) {
-// Unable to connect to device`
-                // e.printStackTrace();
-                mConnectSuccessful = false;
-
-
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            if (!mConnectSuccessful) {
-                Toast.makeText(getApplicationContext(), "Tidak Bisa Terkoneksi Dengan Motor. Silahkan Pastikan Motor Online!", Toast.LENGTH_LONG).show();
-                finish();
-            } else {
-                msg("Connected to device");
-                mIsBluetoothConnected = true;
-                mReadThread = new ReadInput(); // Kick off input reader
-            }
-
-            progressDialog.dismiss();
-        }
-
-    }
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
+//    private class ConnectBT extends AsyncTask<Void, Void, Void> {
+//        private boolean mConnectSuccessful = true;
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//            progressDialog = ProgressDialog.show(MainActivity.this, "Tunggu Sebentar", "Menyambungkan Aplikasi ke Motor...");// http://stackoverflow.com/a/11130220/1287554
+//
+//        }
+//
+//        @SuppressLint("MissingPermission")
+//        @Override
+//        protected Void doInBackground(Void... devices) {
+//
+//            try {
+//                if (mBTSocket == null || !mIsBluetoothConnected) {
+//                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
+//                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+//                    mBTSocket.connect();
+//                }
+//            } catch (IOException e) {
+//// Unable to connect to device`
+//                // e.printStackTrace();
+//                mConnectSuccessful = false;
+//
+//
+//
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//
+//            if (!mConnectSuccessful) {
+//                Toast.makeText(getApplicationContext(), "Tidak Bisa Terkoneksi Dengan Motor. Silahkan Pastikan Motor Online!", Toast.LENGTH_LONG).show();
+//                finish();
+//            } else {
+//                msg("Motor dan Aplikasi Berhasil Tersambung");
+//                mIsBluetoothConnected = true;
+//                mReadThread = new ReadInput(); // Kick off input reader
+//            }
+//
+//            progressDialog.dismiss();
+//        }
+//
+//    }
+//    @Override
+//    protected void onDestroy() {
+//        // TODO Auto-generated method stub
+//        super.onDestroy();
+//    }
 }

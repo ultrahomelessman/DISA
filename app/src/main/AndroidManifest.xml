@@ -9,24 +9,28 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_logoku"
+        android:icon="@mipmap/ic_etho"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_logoku_round"
+        android:roundIcon="@mipmap/ic_etho_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bismillah_motor_listrik"
         tools:targetApi="31">
         <activity
-            android:name=".standbypopupp"
+            android:name=".Off"
             android:exported="false" />
+        <activity
+            android:name=".standbypopupp"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SplashScreen"
             android:exported="true"

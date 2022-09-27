@@ -4,89 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0e0e0e"
+    android:background="#011021"
     tools:context=".Scanner">
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/scannerView"
-        android:layout_width="580dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:frameAspectRatioHeight="1"
-        android:layout_marginEnd="270dp"
-        app:frameAspectRatioWidth="1"
-        app:frameColor="@android:color/white"
+        app:frameAspectRatioWidth="1.5"
+        app:frameColor="#ea3e3e"
         app:frameCornersRadius="20dp"
-        app:frameCornersSize="50dp"
-        app:frameSize="0.8"
-        app:frameThickness="2dp"
+        app:frameCornersSize="40dp"
+        app:frameSize="0.6"
+        app:frameThickness="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:maskColor="#0e0e0e">
+        app:maskColor="#fff"
+        app:maskVisible="true">
 
     </com.budiyev.android.codescanner.CodeScannerView>
 
-    <LinearLayout
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:layout_marginEnd="-810dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/kotaktebal">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/lingkaran"
-        android:layout_marginEnd="-320dp"
-        android:layout_marginTop="-410dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/bawah"
-        android:layout_marginEnd="-800dp"
-        android:layout_marginBottom="-450dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
-    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/scanilus"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
+        android:src="@drawable/iluskiri2"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </ImageView>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/iluskanan2"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </ImageView>
+
+
     <TextView
-        android:layout_width="220dp"
+        android:layout_width="420dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="-595dp"
-        android:layout_marginTop="240dp"
+        android:textAlignment="center"
+        android:layout_marginTop="370dp"
         android:fontFamily="@font/monserat"
         android:text="Arahkan Kartu yang terdapat gambar QR menuju kamera, pastikan gambar QR memenuhi frame kamera scanner."
-        android:textColor="@color/white"
+        android:textColor="#ea3e3e"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -5,215 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#0e0e0e">
+    android:background="#fff">
 
-    <LinearLayout
-        android:layout_width="800dp"
-        android:layout_height="550dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginLeft="-140dp"
-        android:background="@drawable/lengkungkotak"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:src="@drawable/ilustrasion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="-520dp"
-        android:background="@drawable/shapegaris"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="-430dp"
-        android:layout_marginLeft="650dp"
-        android:background="@drawable/shapecover"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="400dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="130dp"
-        android:layout_marginLeft="600dp"
-        android:background="@drawable/shapegaris"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginLeft="750dp"
-        android:background="@drawable/kotaktebal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
+    </ImageView>
 
     <TextView
-        android:layout_width="490dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="275dp"
-        android:fontFamily="@font/rightous"
+        android:layout_width="550dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="-30dp"
+        android:fontFamily="@font/monserat"
         android:text="Selamat Datang!"
-        android:textColor="@color/white"
-        android:textSize="55dp"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
+
     <Button
         android:id="@+id/button"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="-70dp"
-        android:layout_marginEnd="-630dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="-200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.876"
-        android:background="@drawable/buttonkuning"
+        android:background="@drawable/buttonpink"
         android:text="Scan"
         android:textAllCaps="false"
         android:fontFamily="@font/monserat"
         android:textSize="17dp"
-        android:textColor="#0e0e0e">
+        android:textColor="#fff">
     </Button>
 
     <TextView
         android:id="@+id/percobaan"
-        android:layout_width="400dp"
+        android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="245dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="90dp"
+        android:textAlignment="center"
         android:fontFamily="@font/monserat"
-        android:text="Mari kita mulai perjalanan yang menyerukan di hari ini bersama Jema. Scan kartu QR mu!"
-        android:textColor="@color/white"
-        android:textSize="15dp"
+        android:text="Mari kita mulai perjalanan yang menyerukan di hari ini bersama Etho. Scan kartu QR mu!"
+        android:textColor="#ea3e3e"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></TextView>
 
-    <LinearLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="720dp"
-        android:layout_marginBottom="-260dp"
-        android:background="@drawable/shapekecil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="450dp"
-        android:layout_height="450dp"
-        android:layout_marginEnd="-770dp"
-        android:layout_marginBottom="95dp"
-        android:background="@drawable/rightshape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="320dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="200dp"
-        android:background="@drawable/centercover"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="540dp"
-        android:layout_marginBottom="110dp"
-        android:background="@drawable/bolabiru"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="200dp"
-        android:background="@drawable/rightshape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ilusshade"
-        android:layout_marginLeft="-28dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/logocolor"
-        android:layout_marginEnd="-10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageView>
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:background="@drawable/kotaktebal"
-        android:layout_marginEnd="820dp"
-        android:layout_marginBottom="350dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
-    </LinearLayout>
 
 
 

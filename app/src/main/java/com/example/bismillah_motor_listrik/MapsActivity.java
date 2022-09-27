@@ -118,7 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int SETTINGS = 20;
     private UUID mDeviceUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private int mBufferSize = 50000; //Default
-    private ReadInput mReadThread = null;
+//    private ReadInput mReadThread = null;
 
     private int mMaxChars = 50000;//Default//change this to string..........
     private BluetoothSocket mBTSocket;
@@ -175,9 +175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        mDevice = b.getParcelable(Scanner.DEVICE_EXTRA);
-        mDeviceUUID = UUID.fromString(b.getString(Scanner.DEVICE_UUID));
-        mMaxChars = b.getInt(Scanner.BUFFER_SIZE);
+//        mDevice = b.getParcelable(Scanner.DEVICE_EXTRA);
+//        mDeviceUUID = UUID.fromString(b.getString(Scanner.DEVICE_UUID));
+//        mMaxChars = b.getInt(Scanner.BUFFER_SIZE);
 
         if (mBluetoothAdapter == null) {
             out.append("device not supported");
@@ -199,9 +199,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        ambil id
         Bundle extras = getIntent().getExtras();
         id = extras.getString(KEY_NAME);
-        key_device = extras.getString(key_device);
-        key_mDevice = extras.getString(key_mDevice);
-        key_mBuffer = extras.getString(key_mBuffer);
+//        key_device = extras.getString(key_device);
+//        key_mDevice = extras.getString(key_mDevice);
+//        key_mBuffer = extras.getString(key_mBuffer);
         saldo = findViewById(R.id.saldo);
 
         saldo.setText(key_device);
@@ -256,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dialog.setCancelable(false);
 
                 Standby();
-                motorOff();
+//                motorOff();
                 TextView ada = (TextView) dialog.findViewById(R.id.countdown);
 //                TextView txt = (TextView) dialog.findViewById(R.id.txt);
                 new CountDownTimer(300000, 1000) {
@@ -289,7 +289,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onClick(View v) {
                         dialog.dismiss();
                         Resume();
-                        motorOn();
+//                        motorOn();
 
                     }
                 });
@@ -737,7 +737,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handler.removeCallbacks(runnable3);
                 Off();
                 habis();
-                motorOff();
+//                motorOff();
                 return;
             }
         });
@@ -989,87 +989,87 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // ... (Add other message types here as needed.)
     }
 
-    private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
-        private byte[] mmBuffer; // mmBuffer store for the stream
-
-        public ConnectedThread(BluetoothSocket socket) {
-            mmSocket = socket;
-            InputStream tmpIn = null;
-            OutputStream tmpOut = null;
-
-            // Get the input and output streams; using temp objects because
-            // member streams are final.
-            try {
-                tmpIn = socket.getInputStream();
-            } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating input stream", e);
-            }
-            try {
-                tmpOut = socket.getOutputStream();
-            } catch (IOException e) {
-                Log.e(TAG, "Error occurred when creating output stream", e);
-            }
-
-            mmInStream = tmpIn;
-            mmOutStream = tmpOut;
-        }
-
-        public void run() {
-            mmBuffer = new byte[1024];
-            int numBytes; // bytes returned from read()
-
-            // Keep listening to the InputStream until an exception occurs.
-            while (true) {
-                try {
-                    // Read from the InputStream.
-                    numBytes = mmInStream.read(mmBuffer);
-                    // Send the obtained bytes to the UI activity.
-                    Message readMsg = handler.obtainMessage(
-                            MessageConstants.MESSAGE_READ, numBytes, -1,
-                            mmBuffer);
-                    readMsg.sendToTarget();
-                } catch (IOException e) {
-                    Log.d(TAG, "Input stream was disconnected", e);
-                    break;
-                }
-            }
-        }
-
-        // Call this from the main activity to send data to the remote device.
-        public void write(byte[] bytes) {
-            try {
-                mmOutStream.write(bytes);
-
-                // Share the sent message with the UI activity.
-                Message writtenMsg = handler.obtainMessage(
-                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
-                writtenMsg.sendToTarget();
-            } catch (IOException e) {
-                Log.e(TAG, "Error occurred when sending data", e);
-
-                // Send a failure message back to the activity.
-                Message writeErrorMsg =
-                        handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
-                Bundle bundle = new Bundle();
-                bundle.putString("toast",
-                        "Couldn't send data to the other device");
-                writeErrorMsg.setData(bundle);
-                handler.sendMessage(writeErrorMsg);
-            }
-        }
-
-        // Call this method from the main activity to shut down the connection.
-        public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) {
-                Log.e(TAG, "Could not close the connect socket", e);
-            }
-        }
-    }
+//    private class ConnectedThread extends Thread {
+//        private final BluetoothSocket mmSocket;
+//        private final InputStream mmInStream;
+//        private final OutputStream mmOutStream;
+//        private byte[] mmBuffer; // mmBuffer store for the stream
+//
+//        public ConnectedThread(BluetoothSocket socket) {
+//            mmSocket = socket;
+//            InputStream tmpIn = null;
+//            OutputStream tmpOut = null;
+//
+//            // Get the input and output streams; using temp objects because
+//            // member streams are final.
+//            try {
+//                tmpIn = socket.getInputStream();
+//            } catch (IOException e) {
+//                Log.e(TAG, "Error occurred when creating input stream", e);
+//            }
+//            try {
+//                tmpOut = socket.getOutputStream();
+//            } catch (IOException e) {
+//                Log.e(TAG, "Error occurred when creating output stream", e);
+//            }
+//
+//            mmInStream = tmpIn;
+//            mmOutStream = tmpOut;
+//        }
+//
+//        public void run() {
+//            mmBuffer = new byte[1024];
+//            int numBytes; // bytes returned from read()
+//
+//            // Keep listening to the InputStream until an exception occurs.
+//            while (true) {
+//                try {
+//                    // Read from the InputStream.
+//                    numBytes = mmInStream.read(mmBuffer);
+//                    // Send the obtained bytes to the UI activity.
+//                    Message readMsg = handler.obtainMessage(
+//                            MessageConstants.MESSAGE_READ, numBytes, -1,
+//                            mmBuffer);
+//                    readMsg.sendToTarget();
+//                } catch (IOException e) {
+//                    Log.d(TAG, "Input stream was disconnected", e);
+//                    break;
+//                }
+//            }
+//        }
+//
+//        // Call this from the main activity to send data to the remote device.
+//        public void write(byte[] bytes) {
+//            try {
+//                mmOutStream.write(bytes);
+//
+//                // Share the sent message with the UI activity.
+//                Message writtenMsg = handler.obtainMessage(
+//                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
+//                writtenMsg.sendToTarget();
+//            } catch (IOException e) {
+//                Log.e(TAG, "Error occurred when sending data", e);
+//
+//                // Send a failure message back to the activity.
+//                Message writeErrorMsg =
+//                        handler.obtainMessage(MessageConstants.MESSAGE_TOAST);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("toast",
+//                        "Couldn't send data to the other device");
+//                writeErrorMsg.setData(bundle);
+//                handler.sendMessage(writeErrorMsg);
+//            }
+//        }
+//
+//        // Call this method from the main activity to shut down the connection.
+//        public void cancel() {
+//            try {
+//                mmSocket.close();
+//            } catch (IOException e) {
+//                Log.e(TAG, "Could not close the connect socket", e);
+//            }
+//        }
+//    }
 
     private BroadcastReceiver mBatInfoReceive = new BroadcastReceiver() {
         @Override
@@ -1099,7 +1099,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void chargePhone(){
 
-        Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TEST", Toast.LENGTH_SHORT).show();
 //        try {
 //            //TODO Battery HP Charge
 //            String sendtxt = "LN";
@@ -1113,7 +1113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void chargeDone () {
 
-        Toast.makeText(this, "TEST2", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TEST2", Toast.LENGTH_SHORT).show();
 //        try {
 //            //TODO Battery HP Charge
 //            String sendtxt = "LN";
@@ -1164,23 +1164,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        }, 10000);
 //    }
 
-    private void motorOn() {
-
-        ByteArrayOutputStream stream
-                = new ByteArrayOutputStream();
-
-        // Initializing string
-//        String st = "0";
-
-        // writing the specified byte to the output stream
-        try {
-            String sendtxt = "0";
-            mBTSocket.getOutputStream().write(sendtxt.getBytes());
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//    private void motorOn() {
+//
+//        ByteArrayOutputStream stream
+//                = new ByteArrayOutputStream();
+//
+//        // Initializing string
+////        String st = "0";
+//
+//        // writing the specified byte to the output stream
+//        try {
+//            String sendtxt = "0";
+//            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//
+//        // converting stream to byte array
+//        // and typecasting into string
+////        String finalString
+////                = new String(stream.toByteArray());
+////
+////        // printing the final string
+////        System.out.println(finalString);
+//
+//    }
+//
+//    private void motorOff() {
+//
+//        ByteArrayOutputStream stream
+//                = new ByteArrayOutputStream();
+//
+//        // Initializing string
+////        String st = "0";
+//
+//        // writing the specified byte to the output stream
+//        try {
+//            String sendtxt = "1";
+//            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         // converting stream to byte array
         // and typecasting into string
@@ -1192,211 +1220,181 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void motorOff() {
-
-        ByteArrayOutputStream stream
-                = new ByteArrayOutputStream();
-
-        // Initializing string
-//        String st = "0";
-
-        // writing the specified byte to the output stream
-        try {
-            String sendtxt = "1";
-            mBTSocket.getOutputStream().write(sendtxt.getBytes());
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        // converting stream to byte array
-        // and typecasting into string
-//        String finalString
-//                = new String(stream.toByteArray());
+//    private class ConnectBT extends AsyncTask<Void, Void, Void> {
+//        private boolean mConnectSuccessful = true;
 //
-//        // printing the final string
-//        System.out.println(finalString);
+//        @Override
+//        protected void onPreExecute() {
+//
+//            progressDialog = ProgressDialog.show(MapsActivity.this, "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
+//
+//        }
+//
+//        @SuppressLint("MissingPermission")
+//        @Override
+//        protected Void doInBackground(Void... devices) {
+//
+//            try {
+//                if (mBTSocket == null || !mIsBluetoothConnected) {
+//                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
+//                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+//                    mBTSocket.connect();
+//                }
+//            } catch (IOException e) {
+//// Unable to connect to device`
+//                // e.printStackTrace();
+//                mConnectSuccessful = false;
+//
+//
+//
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//
+//            if (!mConnectSuccessful) {
+//                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
+//                finish();
+//            } else {
+//                msg("Connected to device");
+//                mIsBluetoothConnected = true;
+//                mReadThread = new ReadInput(); // Kick off input reader
+//            }
+//
+//            progressDialog.dismiss();
+//        }
+//
+//    }
+//    private void msg(String s) {
+//        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+//    }
+//    private class ReadInput implements Runnable {
+//
+//        private boolean bStop = false;
+//        private Thread t;
+//
+//        public ReadInput() {
+//            t = new Thread(this, "Input Thread");
+//            t.start();
+//        }
+//
+//        public boolean isRunning() {
+//            return t.isAlive();
+//        }
+//
+//        @Override
+//        public void run() {
+//            InputStream inputStream;
+//
+//            try {
+//                inputStream = mBTSocket.getInputStream();
+//
+//                inputStream = mBTSocket.getInputStream();
+//                while (!bStop) {
+//                    byte[] buffer = new byte[256];
+//                    if (inputStream.available() > 0) {
+//                        inputStream.read(buffer);
+//                        int i = 0;
+//
+//                        /*
+//                         * This is needed because new String(buffer) is taking the entire buffer i.e. 256 chars on Android 2.3.4 http://stackoverflow.com/a/8843462/1287554
+//                         */
+//                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
+//                        }
+//                        final String strInput = new String(buffer, 0, i);
+//
+//                        /*
+//                         * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
+//                         */
+//
+//
+//
+//                    }
+//                    Thread.sleep(500);
+//                }
+//            } catch (IOException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//        public void stop() {
+//            bStop = true;
+//        }
+//
+//    }
+//
+//    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {//cant inderstand these dotss
+//
+//            if (mReadThread != null) {
+//                mReadThread.stop();
+//                while (mReadThread.isRunning())
+//                    ; // Wait until it stops
+//                mReadThread = null;
+//
+//            }
+//
+//            try {
+//                mBTSocket.close();
+//            } catch (IOException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            mIsBluetoothConnected = false;
+//            if (mIsUserInitiatedDisconnect) {
+//                finish();
+//            }
+//        }
+//
+//    }
+//
+//
+//    @Override
+//    protected void onPause() {
+//        if (mBTSocket != null && mIsBluetoothConnected) {
+//            new DisConnectBT().execute();
+//        }
+//        Log.d(TAG, "Paused");
+//        super.onPause();
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        if (mBTSocket == null || !mIsBluetoothConnected) {
+//            new ConnectBT().execute();
+//        }
+//        Log.d(TAG, "Resumed");
+//        super.onResume();
+//    }
+//
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//// TODO Auto-generated method stub
+//        super.onSaveInstanceState(outState);
+//    }
+//
+//
+//
+//
 
-    }
-
-    private class ConnectBT extends AsyncTask<Void, Void, Void> {
-        private boolean mConnectSuccessful = true;
-
-        @Override
-        protected void onPreExecute() {
-
-            progressDialog = ProgressDialog.show(MapsActivity.this, "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
-
-        }
-
-        @SuppressLint("MissingPermission")
-        @Override
-        protected Void doInBackground(Void... devices) {
-
-            try {
-                if (mBTSocket == null || !mIsBluetoothConnected) {
-                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                    mBTSocket.connect();
-                }
-            } catch (IOException e) {
-// Unable to connect to device`
-                // e.printStackTrace();
-                mConnectSuccessful = false;
-
-
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            if (!mConnectSuccessful) {
-                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
-                finish();
-            } else {
-                msg("Connected to device");
-                mIsBluetoothConnected = true;
-                mReadThread = new ReadInput(); // Kick off input reader
-            }
-
-            progressDialog.dismiss();
-        }
-
-    }
-    private void msg(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-    }
-    private class ReadInput implements Runnable {
-
-        private boolean bStop = false;
-        private Thread t;
-
-        public ReadInput() {
-            t = new Thread(this, "Input Thread");
-            t.start();
-        }
-
-        public boolean isRunning() {
-            return t.isAlive();
-        }
-
-        @Override
-        public void run() {
-            InputStream inputStream;
-
-            try {
-                inputStream = mBTSocket.getInputStream();
-
-                inputStream = mBTSocket.getInputStream();
-                while (!bStop) {
-                    byte[] buffer = new byte[256];
-                    if (inputStream.available() > 0) {
-                        inputStream.read(buffer);
-                        int i = 0;
-
-                        /*
-                         * This is needed because new String(buffer) is taking the entire buffer i.e. 256 chars on Android 2.3.4 http://stackoverflow.com/a/8843462/1287554
-                         */
-                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
-                        }
-                        final String strInput = new String(buffer, 0, i);
-
-                        /*
-                         * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
-                         */
-
-
-
-                    }
-                    Thread.sleep(500);
-                }
-            } catch (IOException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-
-        public void stop() {
-            bStop = true;
-        }
-
-    }
-
-    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {//cant inderstand these dotss
-
-            if (mReadThread != null) {
-                mReadThread.stop();
-                while (mReadThread.isRunning())
-                    ; // Wait until it stops
-                mReadThread = null;
-
-            }
-
-            try {
-                mBTSocket.close();
-            } catch (IOException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            mIsBluetoothConnected = false;
-            if (mIsUserInitiatedDisconnect) {
-                finish();
-            }
-        }
-
-    }
-
-
-    @Override
-    protected void onPause() {
-        if (mBTSocket != null && mIsBluetoothConnected) {
-            new DisConnectBT().execute();
-        }
-        Log.d(TAG, "Paused");
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        if (mBTSocket == null || !mIsBluetoothConnected) {
-            new ConnectBT().execute();
-        }
-        Log.d(TAG, "Resumed");
-        super.onResume();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-// TODO Auto-generated method stub
-        super.onSaveInstanceState(outState);
-    }
-
-
-
-
-
-
-}

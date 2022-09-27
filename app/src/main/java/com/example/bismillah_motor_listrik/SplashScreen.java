@@ -31,7 +31,7 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mtintent = new Intent(SplashScreen.this, BluetoothFragment.class);
+                Intent mtintent = new Intent(SplashScreen.this, MainActivity.class);
                 startActivity(mtintent);
                 finish();
             }

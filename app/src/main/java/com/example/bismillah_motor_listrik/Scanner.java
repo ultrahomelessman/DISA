@@ -75,7 +75,7 @@ public class Scanner extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    private ReadInput mReadThread = null;
+//    private ReadInput mReadThread = null;
 
 
     final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -108,11 +108,11 @@ public class Scanner extends AppCompatActivity {
 
         ActivityHelper.initialize(this);
 
-        Intent intent = getIntent();
-        Bundle b = intent.getExtras();
-        mDevice = b.getParcelable(MainActivity.DEVICE_EXTRA);
-        mDeviceUUID = UUID.fromString(b.getString(MainActivity.DEVICE_UUID));
-        mMaxChars = b.getInt(MainActivity.BUFFER_SIZE);
+//        Intent intent = getIntent();
+//        Bundle b = intent.getExtras();
+//        mDevice = b.getParcelable(MainActivity.DEVICE_EXTRA);
+//        mDeviceUUID = UUID.fromString(b.getString(MainActivity.DEVICE_UUID));
+//        mMaxChars = b.getInt(MainActivity.BUFFER_SIZE);
 
         if (mBluetoothAdapter == null) {
             out.append("device not supported");
@@ -130,12 +130,12 @@ public class Scanner extends AppCompatActivity {
         codeScannerView = (CodeScannerView) findViewById(R.id.scannerView);
         codeScanner = new CodeScanner(this, codeScannerView);
 
-        Bundle extras = getIntent().getExtras();
-        key_device = extras.getString(key_device);
-        key_mDevice = extras.getString(key_mDevice);
-        key_mBuffer = extras.getString(key_mBuffer);
+//        Bundle extras = getIntent().getExtras();
+//        key_device = extras.getString(key_device);
+//        key_mDevice = extras.getString(key_mDevice);
+//        key_mBuffer = extras.getString(key_mBuffer);
 
-//        codeScanner.setCamera(1);
+        codeScanner.setCamera(1);
 
         decorView = getWindow() .getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -160,8 +160,8 @@ public class Scanner extends AppCompatActivity {
             }
         });
 
-//        Intent intent = getIntent();
-//        Bundle b = intent.getExtras();
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
 //        mDevice = b.getParcelable(BluetoothFragment.DEVICE_EXTRA);
 ////        mDeviceUUID = UUID.fromString(b.getString(BluetoothFragment.DEVICE_UUID));
 //        mMaxChars = b.getInt(BluetoothFragment.BUFFER_SIZE);
@@ -209,21 +209,21 @@ public class Scanner extends AppCompatActivity {
                     return;
                 }
 
-                motorOn();
+//                motorOn();
                 id = response.body().getId();
                 if (response.body().getSuccess() != null){
                     loading.cancel();
                     BluetoothDevice device = (mDevice);
 //                    Intent intent = new Intent(getApplicationContext(), Scanner.class);
                     Intent i = new Intent(Scanner.this, MapsActivity.class);
-                    i.putExtra(DEVICE_EXTRA, device);
-                    i.putExtra(DEVICE_UUID, mDeviceUUID.toString());
-                    i.putExtra(BUFFER_SIZE, mBufferSize);
+//                    i.putExtra(DEVICE_EXTRA, device);
+//                    i.putExtra(DEVICE_UUID, mDeviceUUID.toString());
+//                    i.putExtra(BUFFER_SIZE, mBufferSize);
 
                     i.putExtra(KEY_NAME, id);
-                    i.putExtra(key_device, key_device);
-                    i.putExtra(key_mDevice, key_mDevice);
-                    i.putExtra(key_mBuffer, key_mBuffer);
+//                    i.putExtra(key_device, key_device);
+//                    i.putExtra(key_mDevice, key_mDevice);
+//                    i.putExtra(key_mBuffer, key_mBuffer);
 
 //                    startActivity(intent);
                     startActivity(i);
@@ -265,171 +265,171 @@ public class Scanner extends AppCompatActivity {
         codeScanner.startPreview();
     }
 
-    private class ConnectBT extends AsyncTask<Void, Void, Void> {
-        private boolean mConnectSuccessful = true;
+//    private class ConnectBT extends AsyncTask<Void, Void, Void> {
+//        private boolean mConnectSuccessful = true;
+//
+//        @Override
+//        protected void onPreExecute() {
+//
+//            progressDialog = ProgressDialog.show(Scanner.this, "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
+//
+//        }
 
-        @Override
-        protected void onPreExecute() {
+//        @SuppressLint("MissingPermission")
+//        @Override
+//        protected Void doInBackground(Void... devices) {
+//
+//            try {
+//                if (mBTSocket == null || !mIsBluetoothConnected) {
+//                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
+//                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
+//                    mBTSocket.connect();
+//                }
+//            } catch (IOException e) {
+//// Unable to connect to device`
+//                // e.printStackTrace();
+//                mConnectSuccessful = false;
+//
+//
+//
+//            }
+//            return null;
+//        }
 
-            progressDialog = ProgressDialog.show(Scanner.this, "Hold on", "Connecting");// http://stackoverflow.com/a/11130220/1287554
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//
+//            if (!mConnectSuccessful) {
+//                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
+//                finish();
+//            } else {
+//                msg("Connected to device");
+//                mIsBluetoothConnected = true;
+//                mReadThread = new ReadInput(); // Kick off input reader
+//            }
+//
+//            progressDialog.dismiss();
+//        }
+//
+//    }
+//    private void msg(String s) {
+//        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+//    }
+//    private class ReadInput implements Runnable {
+//
+//        private boolean bStop = false;
+//        private Thread t;
+//
+//        public ReadInput() {
+//            t = new Thread(this, "Input Thread");
+//            t.start();
+//        }
+//
+//        public boolean isRunning() {
+//            return t.isAlive();
+//        }
+//
+//        @Override
+//        public void run() {
+//            InputStream inputStream;
+//
+//            try {
+//                inputStream = mBTSocket.getInputStream();
+//
+//                inputStream = mBTSocket.getInputStream();
+//                while (!bStop) {
+//                    byte[] buffer = new byte[256];
+//                    if (inputStream.available() > 0) {
+//                        inputStream.read(buffer);
+//                        int i = 0;
+//
+//                        /*
+//                         * This is needed because new String(buffer) is taking the entire buffer i.e. 256 chars on Android 2.3.4 http://stackoverflow.com/a/8843462/1287554
+//                         */
+//                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
+//                        }
+//                        final String strInput = new String(buffer, 0, i);
+//
+//                        /*
+//                         * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
+//                         */
+//
+//
+//
+//                    }
+//                    Thread.sleep(500);
+//                }
+//            } catch (IOException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//
+//        }
+//
+//        public void stop() {
+//            bStop = true;
+//        }
+//
+//    }
 
-        }
-
-        @SuppressLint("MissingPermission")
-        @Override
-        protected Void doInBackground(Void... devices) {
-
-            try {
-                if (mBTSocket == null || !mIsBluetoothConnected) {
-                    mBTSocket = mDevice.createInsecureRfcommSocketToServiceRecord(mDeviceUUID);
-                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
-                    mBTSocket.connect();
-                }
-            } catch (IOException e) {
-// Unable to connect to device`
-                // e.printStackTrace();
-                mConnectSuccessful = false;
-
-
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            if (!mConnectSuccessful) {
-                Toast.makeText(getApplicationContext(), "Could not connect to device.Please turn on your Hardware", Toast.LENGTH_LONG).show();
-                finish();
-            } else {
-                msg("Connected to device");
-                mIsBluetoothConnected = true;
-                mReadThread = new ReadInput(); // Kick off input reader
-            }
-
-            progressDialog.dismiss();
-        }
-
-    }
-    private void msg(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-    }
-    private class ReadInput implements Runnable {
-
-        private boolean bStop = false;
-        private Thread t;
-
-        public ReadInput() {
-            t = new Thread(this, "Input Thread");
-            t.start();
-        }
-
-        public boolean isRunning() {
-            return t.isAlive();
-        }
-
-        @Override
-        public void run() {
-            InputStream inputStream;
-
-            try {
-                inputStream = mBTSocket.getInputStream();
-
-                inputStream = mBTSocket.getInputStream();
-                while (!bStop) {
-                    byte[] buffer = new byte[256];
-                    if (inputStream.available() > 0) {
-                        inputStream.read(buffer);
-                        int i = 0;
-
-                        /*
-                         * This is needed because new String(buffer) is taking the entire buffer i.e. 256 chars on Android 2.3.4 http://stackoverflow.com/a/8843462/1287554
-                         */
-                        for (i = 0; i < buffer.length && buffer[i] != 0; i++) {
-                        }
-                        final String strInput = new String(buffer, 0, i);
-
-                        /*
-                         * If checked then receive text, better design would probably be to stop thread if unchecked and free resources, but this is a quick fix
-                         */
-
-
-
-                    }
-                    Thread.sleep(500);
-                }
-            } catch (IOException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-
-        public void stop() {
-            bStop = true;
-        }
-
-    }
-
-    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {//cant inderstand these dotss
-
-            if (mReadThread != null) {
-                mReadThread.stop();
-                while (mReadThread.isRunning())
-                    ; // Wait until it stops
-                mReadThread = null;
-
-            }
-
-            try {
-                mBTSocket.close();
-            } catch (IOException e) {
-// TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            mIsBluetoothConnected = false;
-            if (mIsUserInitiatedDisconnect) {
-                finish();
-            }
-        }
-
-    }
+//    private class DisConnectBT extends AsyncTask<Void, Void, Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {//cant inderstand these dotss
+//
+//            if (mReadThread != null) {
+//                mReadThread.stop();
+//                while (mReadThread.isRunning())
+//                    ; // Wait until it stops
+//                mReadThread = null;
+//
+//            }
+//
+//            try {
+//                mBTSocket.close();
+//            } catch (IOException e) {
+//// TODO Auto-generated catch block
+//                e.printStackTrace();
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            super.onPostExecute(result);
+//            mIsBluetoothConnected = false;
+//            if (mIsUserInitiatedDisconnect) {
+//                finish();
+//            }
+//        }
+//
+//    }
 
 
     @Override
     protected void onPause() {
-        if (mBTSocket != null && mIsBluetoothConnected) {
-            new DisConnectBT().execute();
-        }
-        Log.d(TAG, "Paused");
+//        if (mBTSocket != null && mIsBluetoothConnected) {
+//            new DisConnectBT().execute();
+//        }
+//        Log.d(TAG, "Paused");
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        if (mBTSocket == null || !mIsBluetoothConnected) {
-            new ConnectBT().execute();
-        }
-        Log.d(TAG, "Resumed");
+//        if (mBTSocket == null || !mIsBluetoothConnected) {
+//            new ConnectBT().execute();
+//        }
+//        Log.d(TAG, "Resumed");
         super.onResume();
         requestCamera();
     }
@@ -454,23 +454,23 @@ public class Scanner extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onDestroy();
     }
-    private void motorOn() {
-
-        ByteArrayOutputStream stream
-                = new ByteArrayOutputStream();
-
-        // Initializing string
+//    private void motorOn() {
+//
+//        ByteArrayOutputStream stream
+//                = new ByteArrayOutputStream();
+//
+//        // Initializing string
 //        String st = "0";
 
         // writing the specified byte to the output stream
-        try {
-            String sendtxt = "0";
-            mBTSocket.getOutputStream().write(sendtxt.getBytes());
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            String sendtxt = "0";
+//            mBTSocket.getOutputStream().write(sendtxt.getBytes());
+//
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         // converting stream to byte array
         // and typecasting into string
@@ -480,7 +480,7 @@ public class Scanner extends AppCompatActivity {
 //        // printing the final string
 //        System.out.println(finalString);
 
-    }
+//    }
 
 
 

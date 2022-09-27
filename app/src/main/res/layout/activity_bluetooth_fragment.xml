@@ -5,33 +5,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BluetoothFragment">
+    tools:context=".BluetoothFragment"
+    android:background="#ffff">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+        android:layout_width="320dp"
+        android:layout_height="270dp"
+        android:layout_marginLeft="440dp"
+        android:layout_marginTop="75dp"
+        android:background="@drawable/bg_bluetooth">
+    </LinearLayout>
 
-            android:text="Search" />
+    <TextView
+        android:layout_width="290dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="-260dp"
+        android:layout_marginLeft="72dp"
+        android:text="Connect Aplikasi ke Motor"
+        android:fontFamily="@font/rightous"
+        android:textColor="#8dab11"
+        android:textSize="37dp">
+    </TextView>
 
-        <Button
-            android:id="@+id/connect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
-
-            android:text="Connect" />
+    <LinearLayout
+        android:layout_width="290dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="70dp"
+        android:background="@drawable/greendown">
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="270dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="-63dp"
+        android:layout_marginLeft="90dp"
+        android:text="Klik Tombol Find untuk mencari Motor, tekan nama Motor dengan bentuk          (Motor #...) lalu klik tombol Connect."
+        android:fontFamily="@font/monserat"
+        android:textColor="#4a5e02"
+        android:textSize="12dp">
+    </TextView>
+
     <ListView
         android:id="@+id/listview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_marginLeft="450dp"
+        android:layout_marginTop="-260dp"
+        android:divider="@drawable/buttonkuning">
     </ListView>
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="-27dp"
+        android:fontFamily="@font/monserat"
+        android:textAllCaps="false"
+        android:background="@drawable/buttonbiru"
+        android:text="Find"
+        android:textColor="#3781c4"/>
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="-40dp"
+        android:textAllCaps="false"
+        android:fontFamily="@font/monserat"
+        android:background="@drawable/buttonbiru"
+        android:text="Connect"
+        android:textColor="#3781c4"/>
+
+
+    <RelativeLayout
+        android:layout_width="450dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="-30dp">
+
+        <LinearLayout
+            android:layout_width="450dp"
+            android:layout_height="300dp"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/shapeblutut"></LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="145dp"
+            android:layout_height="10dp"
+            android:background="#ffff"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="62dp">
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="145dp"
+            android:layout_height="10dp"
+            android:background="#ffff"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="222dp">
+        </RelativeLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
