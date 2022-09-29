@@ -261,7 +261,7 @@ public class BluetoothFragment extends AppCompatActivity {
     private class MyAdapter extends ArrayAdapter<BluetoothDevice> {
         private int selectedIndex;
         private Context context;
-        private int selectedColor = Color.parseColor("#abcdef");
+        private int selectedColor = Color.parseColor("#ea3e3e");
         private List<BluetoothDevice> myList;
 
         public MyAdapter(Context ctx, int resource, int textViewResourceId, List<BluetoothDevice> objects) {

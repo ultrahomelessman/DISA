@@ -461,11 +461,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 tagihan.setText(tampil.toString());
-                if (tampil == 0) {
-                    Toast.makeText(MapsActivity.this, "Billing Telah Habis", Toast.LENGTH_SHORT).show();
-                    habis();
-                    return;
-                }
+//                if (tampil == 0) {
+//                    Toast.makeText(MapsActivity.this, "Billing Telah Habis", Toast.LENGTH_SHORT).show();
+//                    habis();
+//                    return;
+//                }
                 setCredit();
             }
         };
@@ -783,7 +783,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Motor realtime = new Motor(battery, jarak, latitude, longitude);
 
-        Call<PostMotor> call = api.putMotor("2", realtime);
+        Call<PostMotor> call = api.putMotor("1", realtime);
 
         call.enqueue(new Callback<PostMotor>() {
             @Override

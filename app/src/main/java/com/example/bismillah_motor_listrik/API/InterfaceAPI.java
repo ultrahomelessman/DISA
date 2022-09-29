@@ -18,11 +18,11 @@ import retrofit2.http.Path;
 
 public interface InterfaceAPI {
 
-    String BASE_URL = "https://fb14-202-67-40-26.ap.ngrok.io/";
+    String BASE_URL = "https://35f5-36-91-58-207.ngrok.io";
 
     @POST("api/login")
     @FormUrlEncoded
-    Call<Login> loginScanner(@Field("username") String username);
+    Call<Login> loginScanner(@Field("username") String username,@Field("motor_id") String motor_id);
 
     @GET("api/user/{id}")
     Call<User> user(@Path("id") String id);

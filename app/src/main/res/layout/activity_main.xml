@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
 
-        android:src="@drawable/ilustrasion"
+        android:src="@drawable/ilustrationwelcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,12 +23,12 @@
     <TextView
         android:layout_width="550dp"
         android:layout_height="150dp"
-        android:layout_marginTop="-30dp"
-        android:fontFamily="@font/monserat"
+        android:layout_marginTop="-45dp"
+        android:fontFamily="@font/maven"
         android:text="Selamat Datang!"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="50dp"
+        android:textSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

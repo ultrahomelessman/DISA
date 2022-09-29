@@ -135,7 +135,7 @@ public class Scanner extends AppCompatActivity {
 //        key_mDevice = extras.getString(key_mDevice);
 //        key_mBuffer = extras.getString(key_mBuffer);
 
-        codeScanner.setCamera(1);
+//        codeScanner.setCamera(1);
 
         decorView = getWindow() .getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -199,7 +199,7 @@ public class Scanner extends AppCompatActivity {
 
         InterfaceAPI api = retrofit.create(InterfaceAPI.class);
 
-        Call<Login> call = api.loginScanner(username);
+        Call<Login> call = api.loginScanner(username, "1");
 
         call.enqueue(new Callback<Login>() {
             @Override

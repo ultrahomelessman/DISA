@@ -25,6 +25,9 @@
         android:theme="@style/Theme.Bismillah_motor_listrik"
         tools:targetApi="31">
         <activity
+            android:name=".tester"
+            android:exported="false" />
+        <activity
             android:name=".Off"
             android:exported="false" />
         <activity

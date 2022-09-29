@@ -2,21 +2,17 @@ package com.example.bismillah_motor_listrik;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.view.WindowManager;
 
-public class SplashScreen extends AppCompatActivity {
+public class tester extends AppCompatActivity {
 
     private View decorView;
-    private static int Splash_time = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_tester);
 
         decorView = getWindow() .getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -27,16 +23,8 @@ public class SplashScreen extends AppCompatActivity {
             }
         });
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent mtintent = new Intent(SplashScreen.this, tester.class);
-                startActivity(mtintent);
-                finish();
-            }
-        }, Splash_time);
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -54,4 +42,5 @@ public class SplashScreen extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
+
 }

@@ -13,6 +13,6 @@
         android:textSize="30sp"
         android:gravity="left"
         android:padding="5dp"
-        android:textColor="#000" />
+        android:textColor="#fff" />
 
 </LinearLayout>

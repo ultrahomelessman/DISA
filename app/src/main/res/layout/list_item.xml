@@ -14,7 +14,7 @@
         android:textSize="15dp"
         android:gravity="center"
         android:padding="5dp"
-        android:textColor="#000"
+        android:textColor="#fff"
         />
 
 </LinearLayout>

@@ -6,26 +6,16 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/ilusmap"
+        android:layout_marginTop="-10dp"
         android:layout_marginLeft="-30dp"
         map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
+        map:layout_constraintTop_toTopOf="parent"/>
 
     <fragment
         android:id="@+id/map"
@@ -41,9 +31,7 @@
         tools:context=".MapsActivity">
     </fragment>
 
-
     <ImageView
-        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/ilusup"
@@ -92,7 +80,7 @@
     <LinearLayout
         android:layout_width="133dp"
         android:layout_height="70dp"
-        android:background="@drawable/dashdown"
+        android:background="#91b6de"
         android:layout_marginTop="300dp"
         android:layout_marginLeft="372dp"
         map:layout_constraintBottom_toBottomOf="parent"
@@ -308,7 +296,6 @@
     </TextView>
 
     <TextView
-        android:id="@+id/jarak"
         android:layout_width="40dp"
         android:layout_height="30dp"
         android:layout_marginEnd="-685dp"
