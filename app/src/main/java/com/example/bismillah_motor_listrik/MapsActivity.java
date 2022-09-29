@@ -810,7 +810,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Create New Marker
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.dasd));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.motor));
             markerOptions.rotation(location.getBearing());
             markerOptions.anchor((float) 0.5, (float) 0.5);
             userLocationMarker = mMap.addMarker(markerOptions);
