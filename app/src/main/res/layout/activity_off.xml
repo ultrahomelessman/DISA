@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0e0e0e"
     android:padding="5dp"
     android:layout_gravity="center"
     android:layout_centerHorizontal="true"
@@ -14,7 +13,7 @@
         android:id="@+id/linearLayout5"
         android:layout_width="335dp"
         android:layout_height="340dp"
-        android:background="@drawable/bg_popup"
+        android:background="@drawable/bg_bluetooth"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,25 +26,26 @@
         android:id="@+id/textView"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:fontFamily="@font/rightous"
+        android:fontFamily="@font/maven"
         android:text="Checkout"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="#fff"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135">
+        app:layout_constraintVertical_bias="0.335">
 
     </TextView>
 
     <Button
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:background="@drawable/buttonkuning"
+        android:background="@drawable/buttonbiru"
         android:fontFamily="@font/monserat"
         android:text="Selesai"
+        android:textColor="#fff"
         android:textAllCaps="false"
         android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,8 +59,8 @@
     <LinearLayout
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="-155dp"
-        android:background="@drawable/bg_timer"
+        android:layout_marginLeft="-158dp"
+        android:background="@drawable/greendown3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,12 +69,43 @@
         android:orientation="horizontal">
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="-150dp"
+        android:text="Tagihan"
+        android:fontFamily="@font/semibold"
+        android:textSize="13dp"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tagihan"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/monserat"
+        android:text="Rp75.000"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_marginLeft="-150dp"
+        android:layout_marginTop="145dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
         android:layout_width="140dp"
         android:layout_height="70dp"
-        android:layout_marginLeft="155dp"
-        android:background="@drawable/bg_timer"
+        android:layout_marginLeft="158dp"
+        android:background="@drawable/greendown2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +115,50 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="170dp"
+        android:text="Jarak"
+        android:fontFamily="@font/semibold"
+        android:textSize="13dp"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/jarak"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/monserat"
+        android:text="40"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="145dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/monserat"
+        android:text="m"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="145dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 

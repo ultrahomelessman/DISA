@@ -45,6 +45,7 @@
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_bluetooth.xml" value="0.3575" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_buttongray.xml" value="0.3635" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_buttonred.xml" value="0.3635" />
+        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_grey.xml" value="0.3625" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_lightgreykecil.xml" value="0.3635" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_popup.xml" value="0.3635" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/bg_prescan.xml" value="0.33" />
@@ -53,6 +54,8 @@
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/buttonpink.xml" value="0.3625" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/dashdown.xml" value="0.3625" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/greendown.xml" value="0.193" />
+        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/greendown2.xml" value="0.3635" />
+        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/greendown3.xml" value="0.3625" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/shapeblutut.xml" value="0.3625" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/shapecover2.xml" value="0.3635" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/drawable/shapegaris2.xml" value="0.193" />
@@ -64,7 +67,7 @@
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/activity_standbypopupp.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/activity_tampilan.xml" value="0.29743589743589743" />
-        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/activity_tester.xml" value="0.25" />
+        <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/activity_tester.xml" value="0.22" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/list_item.xml" value="0.1" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/layout/list_view.xml" value="0.35280797101449274" />
         <entry key="..\:/Users/lks_w/StudioProjects/Bismillah_Motor_Listrikiop/app/src/main/res/mipmap-anydpi-v26/ic_etho_round.xml" value="0.3635" />

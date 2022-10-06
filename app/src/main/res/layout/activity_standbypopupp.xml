@@ -5,17 +5,18 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffff"
     android:padding="5dp"
     android:layout_gravity="center"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true">
 
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="335dp"
         android:layout_height="340dp"
-        android:background="@drawable/bg_popup"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/bg_bluetooth"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,32 +25,28 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:fontFamily="@font/rightous"
-        android:text="Standby Mode"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="40dp"
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/popup"
+        android:layout_marginTop="-160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </TextView>
+    </ImageView>
 
     <Button
         android:id="@+id/btn_resume"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:background="@drawable/buttonkuning"
+        android:background="@drawable/buttonbiru"
         android:fontFamily="@font/monserat"
         android:text="Resume"
         android:textAllCaps="false"
         android:textSize="17dp"
+        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,12 +59,12 @@
         android:id="@+id/linearLayout4"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:background="@drawable/bg_timer"
+        android:background="@drawable/greendown2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.700"
+        app:layout_constraintVertical_bias="0.650"
         android:orientation="horizontal">
 
     </LinearLayout>
@@ -79,13 +76,31 @@
         android:fontFamily="@font/bolditalic"
         android:text="00:00:00"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="#fff"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/linearLayout3"
         app:layout_constraintVertical_bias="0.88">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:fontFamily="@font/maven"
+        android:text="Standby Mode"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.335">
+
     </TextView>
 
 
